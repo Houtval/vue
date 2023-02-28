@@ -13,4 +13,17 @@ const apiLogin = (Id:string,Password:string)=>{
     });
 }
 
-export {apiLogin}
+const apiUpdatePassword = (Id:string,Password:string)=>{
+    Api({
+        url:'/updatePassword',
+        method:'post',  
+        params:{
+            id:Id,
+            password:Password
+        }  
+    }).then((res)=>{
+       return res;
+    });
+}
+
+export {apiLogin,apiUpdatePassword}
