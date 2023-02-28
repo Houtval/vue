@@ -1,7 +1,7 @@
 <template>
     <el-card class="box-card">
         <template #header>
-            <h3>幻灯片1</h3>
+            <h3>幻灯片2</h3>
         </template>
         <el-row>
             <el-col :span="8" style="display: flex;justify-content: left;">

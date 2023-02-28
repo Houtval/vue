@@ -1,21 +1,25 @@
 <template>
     <el-card class="box-card">
+      <template #header>
+  
+          <h3>铰链信息</h3>
+      </template>
         <el-row>
-
+  
             <el-col :span="8" style="display: flex;justify-content: left;">
                 <el-button size="large" @click="dialogdAddVisible = true">添加</el-button>
             </el-col>
-
+  
             <el-col :span="8">
-
+  
             </el-col>
-
+  
             <el-col :span="8">
                 <el-input v-model="search" size="large" placeholder="搜索" />
             </el-col>
-
+  
         </el-row>
-
+  
     </el-card>
     <el-table :data="filterTableData" style="width: 100%">
         <el-table-column label="Id" prop="id" />
@@ -39,20 +43,18 @@
                 </span>
             </template>
             <template #default="scope">
-
+  
                 <el-button size="default" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
-
+  
                 <el-button size="default" type="danger" @click="handleEdit(scope.$index, scope.row)">修改</el-button>
             </template>
         </el-table-column>
     </el-table>
-
+  
     <el-row>
         <el-col>
-
+  
             <el-dialog v-model="dialogEditVisible" title="修改" style="min-width:80%">
-
-
                 <el-form ref="ruleFormRefEdit" :model="ruleFormEdit" :rules="rulesEdit" label-width="120px"
                     class="demo-ruleF" :size="formSize" status-icon label-position="left">
                     <el-form-item prop="name" label="名称">
@@ -95,7 +97,7 @@
                         <el-input v-model="ruleFormEdit.url" size="default" />
                     </el-form-item>
                 </el-form>
-
+  
                 <template #footer>
                     <span class="dialog-footer">
                         <el-button type="danger" @click=clearFormEdit(ruleFormRefEdit)>重置</el-button>
@@ -107,13 +109,13 @@
             </el-dialog>
         </el-col>
     </el-row>
-
-
+  
+  
     <el-row>
         <el-col>
             <el-dialog v-model="dialogdAddVisible" title="添加" style="min-width:80%">
-
-
+  
+  
                 <el-form ref="ruleFormRefAdd" :model="ruleFormAdd" :rules="rulesAdd" label-width="120px"
                     class="demo-ruleForm" :size="formSize" status-icon label-position="left">
                     <el-form-item prop="name" label="名称">
@@ -156,7 +158,7 @@
                         <el-input v-model="ruleFormAdd.url" size="default" />
                     </el-form-item>
                 </el-form>
-
+  
                 <template #footer>
                     <span class="dialog-footer">
                         <el-button type="danger" @click="clearFormAdd(ruleFormRefAdd)">重置</el-button>
@@ -168,9 +170,9 @@
             </el-dialog>
         </el-col>
     </el-row>
-
-
-
+  
+  
+  
     <el-row>
         <el-col>
             <el-dialog v-model="dialogdDeleteVisible" title="确定删除" width="50%">
@@ -186,12 +188,12 @@
             </el-dialog>
         </el-col>
     </el-row>
-</template>
+  </template>
               
-<script lang="ts" setup>
-import { computed, ref, reactive } from 'vue'
-import type { FormInstance, FormRules } from 'element-plus'
-interface hinge {
+  <script lang="ts" setup>
+  import { computed, ref, reactive } from 'vue'
+  import type { FormInstance, FormRules } from 'element-plus'
+  interface hinge {
     dampingSystem: string,
     doorPanelAdjustment: string,
     hingeBase: string,
@@ -206,29 +208,29 @@ interface hinge {
     optionalEquipment: string,
     shutDownSystem: string,
     url: string
-}
-
-const dialogEditVisible = ref(false)
-const dialogdDeleteVisible = ref(false)
-const dialogdAddVisible = ref(false)
-const search = ref('')
-const filterTableData = computed(() =>
+  }
+  
+  const dialogEditVisible = ref(false)
+  const dialogdDeleteVisible = ref(false)
+  const dialogdAddVisible = ref(false)
+  const search = ref('')
+  const filterTableData = computed(() =>
     tableData.filter(
         (data) =>
             !search.value ||
             data.name.toLowerCase().includes(search.value.toLowerCase())
     )
-)
-const handleEdit = (index: number, row: hinge) => {
+  )
+  const handleEdit = (index: number, row: hinge) => {
     dialogEditVisible.value = true;
-}
-const handleDelete = (index: number, row: hinge) => {
+  }
+  const handleDelete = (index: number, row: hinge) => {
     dialogdDeleteVisible.value = true;
-}
-
-const formSize = ref('default')
-const ruleFormRefEdit = ref<FormInstance>()
-const ruleFormEdit = reactive({
+  }
+  
+  const formSize = ref('default')
+  const ruleFormRefEdit = ref<FormInstance>()
+  const ruleFormEdit = reactive({
     name: '',
     model: '',
     hingeCupInstallation: '',
@@ -242,8 +244,8 @@ const ruleFormEdit = reactive({
     hingeBase: '',
     optionalEquipment: '',
     url: ''
-})
-const rulesEdit = reactive<FormRules>({
+  })
+  const rulesEdit = reactive<FormRules>({
     name: [
         { required: true, message: '输入名称', trigger: 'blur' },
     ],
@@ -283,26 +285,26 @@ const rulesEdit = reactive<FormRules>({
     url: [
         { required: true, message: '输入url', trigger: 'blur' },
     ],
-})
-
-const submitFormEdit = async (formEl: FormInstance | undefined) => {
+  })
+  
+  const submitFormEdit = async (formEl: FormInstance | undefined) => {
     if (!formEl) return
     await formEl.validate((valid, fields) => {
         if (valid) {
-
+  
         } else {
-
+  
         }
     })
-}
-
-const clearFormEdit = (formEl: FormInstance | undefined) => {
+  }
+  
+  const clearFormEdit = (formEl: FormInstance | undefined) => {
     if (!formEl) return
     formEl.resetFields()
-}
-
-const ruleFormRefAdd = ref<FormInstance>()
-const ruleFormAdd = reactive({
+  }
+  
+  const ruleFormRefAdd = ref<FormInstance>()
+  const ruleFormAdd = reactive({
     name: '',
     model: '',
     hingeCupInstallation: '',
@@ -316,9 +318,9 @@ const ruleFormAdd = reactive({
     hingeBase: '',
     optionalEquipment: '',
     url: ''
-
-})
-const rulesAdd = reactive<FormRules>({
+  
+  })
+  const rulesAdd = reactive<FormRules>({
     name: [
         { required: true, message: '输入名称', trigger: 'blur' },
     ],
@@ -358,26 +360,26 @@ const rulesAdd = reactive<FormRules>({
     url: [
         { required: true, message: '输入url', trigger: 'blur' },
     ],
-
-})
-
-const submitFormAdd = async (formEl: FormInstance | undefined) => {
+  
+  })
+  
+  const submitFormAdd = async (formEl: FormInstance | undefined) => {
     if (!formEl) return
     await formEl.validate((valid, fields) => {
         if (valid) {
-
+  
         } else {
-
+  
         }
     })
-}
-const clearFormAdd = (formEl: FormInstance | undefined) => {
+  }
+  const clearFormAdd = (formEl: FormInstance | undefined) => {
     if (!formEl) return
     formEl.resetFields()
-}
-
-
-const tableData: hinge[] = [
+  }
+  
+  
+  const tableData: hinge[] = [
     {
         dampingSystem: "string",
         doorPanelAdjustment: "string",
@@ -458,12 +460,188 @@ const tableData: hinge[] = [
         shutDownSystem: "string",
         url: "string"
     },
-]
-</script>
+    {
+        dampingSystem: "string",
+        doorPanelAdjustment: "string",
+        hingeBase: "string",
+        hingeCupInstallation: "string",
+        id: "string",
+        installationMaterial: "string",
+        installationMethod: "string",
+        largeAngleHinge: "string",
+        model: "string",
+        name: "string",
+        openingAngle: "string",
+        optionalEquipment: "string",
+        shutDownSystem: "string",
+        url: "string"
+    },
+    {
+        dampingSystem: "string",
+        doorPanelAdjustment: "string",
+        hingeBase: "string",
+        hingeCupInstallation: "string",
+        id: "string",
+        installationMaterial: "string",
+        installationMethod: "string",
+        largeAngleHinge: "string",
+        model: "string",
+        name: "string",
+        openingAngle: "string",
+        optionalEquipment: "string",
+        shutDownSystem: "string",
+        url: "string"
+    },
+    {
+        dampingSystem: "string",
+        doorPanelAdjustment: "string",
+        hingeBase: "string",
+        hingeCupInstallation: "string",
+        id: "string",
+        installationMaterial: "string",
+        installationMethod: "string",
+        largeAngleHinge: "string",
+        model: "string",
+        name: "string",
+        openingAngle: "string",
+        optionalEquipment: "string",
+        shutDownSystem: "string",
+        url: "string"
+    },
+    {
+        dampingSystem: "string",
+        doorPanelAdjustment: "string",
+        hingeBase: "string",
+        hingeCupInstallation: "string",
+        id: "string",
+        installationMaterial: "string",
+        installationMethod: "string",
+        largeAngleHinge: "string",
+        model: "string",
+        name: "string",
+        openingAngle: "string",
+        optionalEquipment: "string",
+        shutDownSystem: "string",
+        url: "string"
+    },
+    {
+        dampingSystem: "string",
+        doorPanelAdjustment: "string",
+        hingeBase: "string",
+        hingeCupInstallation: "string",
+        id: "string",
+        installationMaterial: "string",
+        installationMethod: "string",
+        largeAngleHinge: "string",
+        model: "string",
+        name: "string",
+        openingAngle: "string",
+        optionalEquipment: "string",
+        shutDownSystem: "string",
+        url: "string"
+    },
+    {
+        dampingSystem: "string",
+        doorPanelAdjustment: "string",
+        hingeBase: "string",
+        hingeCupInstallation: "string",
+        id: "string",
+        installationMaterial: "string",
+        installationMethod: "string",
+        largeAngleHinge: "string",
+        model: "string",
+        name: "string",
+        openingAngle: "string",
+        optionalEquipment: "string",
+        shutDownSystem: "string",
+        url: "string"
+    },
+    {
+        dampingSystem: "string",
+        doorPanelAdjustment: "string",
+        hingeBase: "string",
+        hingeCupInstallation: "string",
+        id: "string",
+        installationMaterial: "string",
+        installationMethod: "string",
+        largeAngleHinge: "string",
+        model: "string",
+        name: "string",
+        openingAngle: "string",
+        optionalEquipment: "string",
+        shutDownSystem: "string",
+        url: "string"
+    },
+    {
+        dampingSystem: "string",
+        doorPanelAdjustment: "string",
+        hingeBase: "string",
+        hingeCupInstallation: "string",
+        id: "string",
+        installationMaterial: "string",
+        installationMethod: "string",
+        largeAngleHinge: "string",
+        model: "string",
+        name: "string",
+        openingAngle: "string",
+        optionalEquipment: "string",
+        shutDownSystem: "string",
+        url: "string"
+    },
+    {
+        dampingSystem: "string",
+        doorPanelAdjustment: "string",
+        hingeBase: "string",
+        hingeCupInstallation: "string",
+        id: "string",
+        installationMaterial: "string",
+        installationMethod: "string",
+        largeAngleHinge: "string",
+        model: "string",
+        name: "string",
+        openingAngle: "string",
+        optionalEquipment: "string",
+        shutDownSystem: "string",
+        url: "string"
+    },
+    {
+        dampingSystem: "string",
+        doorPanelAdjustment: "string",
+        hingeBase: "string",
+        hingeCupInstallation: "string",
+        id: "string",
+        installationMaterial: "string",
+        installationMethod: "string",
+        largeAngleHinge: "string",
+        model: "string",
+        name: "string",
+        openingAngle: "string",
+        optionalEquipment: "string",
+        shutDownSystem: "string",
+        url: "string"
+    },
+    {
+        dampingSystem: "string",
+        doorPanelAdjustment: "string",
+        hingeBase: "string",
+        hingeCupInstallation: "string",
+        id: "string",
+        installationMaterial: "string",
+        installationMethod: "string",
+        largeAngleHinge: "string",
+        model: "string",
+        name: "string",
+        openingAngle: "string",
+        optionalEquipment: "string",
+        shutDownSystem: "string",
+        url: "string"
+    },
+  ]
+  </script>
               
               
-<style scoped>
-.box-card {
+  <style scoped>
+  .box-card {
     border: none;
-}
-</style>
+  }
+  </style>

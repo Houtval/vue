@@ -18,7 +18,7 @@
 
     <el-sub-menu index="1">
     <template #title>
-      <el-icon><Connection /></el-icon>
+      <el-icon><PictureFilled /></el-icon>
     <span>幻灯片管理</span>
     </template>
     <el-menu-item index="Carousel1">
@@ -51,11 +51,11 @@
 
   <el-sub-menu index="3">
     <template #title>
-      <el-icon><Connection /></el-icon>
+      <el-icon><SemiSelect /></el-icon>
     <span>滑轨</span>
     </template>
     <el-menu-item index="AdminTwo">
-    <el-icon><Connection /></el-icon>
+      <el-icon><SemiSelect /></el-icon>
       <template #title>滑轨信息</template>
     </el-menu-item>
     <el-menu-item index="SlideImage">
