@@ -16,7 +16,24 @@
       <template #title>首页</template>
     </el-menu-item>
 
-  <el-sub-menu index="1">
+    <el-sub-menu index="1">
+    <template #title>
+      <el-icon><Connection /></el-icon>
+    <span>幻灯片管理</span>
+    </template>
+    <el-menu-item index="Carousel1">
+      <el-icon><PictureFilled /></el-icon>
+      <template #title>幻灯片1</template>
+    </el-menu-item>
+    <el-menu-item index="Carousel2">
+      <el-icon><PictureFilled /></el-icon>
+      <template #title>幻灯片2</template>
+    </el-menu-item>
+  </el-sub-menu>
+
+
+
+  <el-sub-menu index="2">
     <template #title>
       <el-icon><Connection /></el-icon>
     <span>铰链</span>
@@ -32,7 +49,7 @@
   </el-sub-menu>
 
 
-  <el-sub-menu index="2">
+  <el-sub-menu index="3">
     <template #title>
       <el-icon><Connection /></el-icon>
     <span>滑轨</span>
@@ -41,12 +58,14 @@
     <el-icon><Connection /></el-icon>
       <template #title>滑轨信息</template>
     </el-menu-item>
-    <el-menu-item index="2-1">
+    <el-menu-item index="SlideImage">
       <el-icon><PictureFilled /></el-icon>
       <template #title>图片上传</template>
     </el-menu-item>
   </el-sub-menu>
   </el-menu>
+
+  
 
 
 </template>

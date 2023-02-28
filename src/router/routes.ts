@@ -48,6 +48,18 @@ const routes: Array<RouteRecordRaw> = [
                 component: () => import('../components/Admin/AdminMainIndex.vue'),
             },
             {    
+                path:'Carousel1',
+                name:'Carousel1',
+                component: () => import('../components/Admin/AdminCarousel1.vue'),
+            },
+            {    
+                path:'Carousel2',
+                name:'Carousel2',
+                component: () => import('../components/Admin/AdminCarousel2.vue'),
+            },
+
+
+            {    
                 path:'AdminOne',
                 name:'AdminOne',
                 component: () => import('../components/Admin/AdminOne.vue'),
@@ -66,6 +78,11 @@ const routes: Array<RouteRecordRaw> = [
                 path:'HingeImage',
                 name:'HingeImage',
                 component: () => import('../components/Admin/HingeImage.vue'),
+            },
+            {    
+                path:'SlideImage',
+                name:'SlideImage',
+                component: () => import('../components/Admin/SlideImage.vue'),
             }
         ]
     },

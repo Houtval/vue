@@ -1,0 +1,192 @@
+<template>
+    <el-card class="box-card">
+        <template #header>
+            <h3>幻灯片1</h3>
+        </template>
+        <el-row>
+            <el-col :span="8" style="display: flex;justify-content: left;">
+                <el-button size="large" @click="dialogdAddVisible = true">添加</el-button>
+            </el-col>
+
+            <el-col :span="8">
+
+            </el-col>
+
+            <el-col :span="8">
+                <el-input v-model="search" size="large" placeholder="搜索" />
+            </el-col>
+
+        </el-row>
+
+    </el-card>
+    <el-table :data="filterTableData" style="width: 100%">
+        <el-table-column label="Id" prop="id" />
+        <el-table-column fixed="right" width="230">
+            <template #header>
+                <span style="text-align: center;">
+                    操作
+                </span>
+            </template>
+            <template #default="scope">
+                <el-button size="default" @click="handleView(scope.$index, scope.row)">查看</el-button>
+                <el-button size="default" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+                <el-button size="default" type="danger" @click="handleEdit(scope.$index, scope.row)">修改</el-button>
+            </template>
+        </el-table-column>
+    </el-table>
+
+    <el-row>
+        <el-col>
+
+            <el-dialog v-model="dialogEditVisible" title="修改" style="min-width:80%">
+                <el-upload ref="uploadRefEdit" class="upload-demo" drag multiple :auto-upload="false"
+                    :on-exceed="handleExceedEdit" :limit="1"
+                    action="https://run.mocky.io/v3/9d059bf9-4660-45f2-925d-ce80ad6c4d15">
+                    <el-icon class="el-icon--upload"><upload-filled /></el-icon>
+                    <div class="el-upload__text">
+                        拖动文件到这里 或 <em>点击上传</em>
+                    </div>
+                    <template #tip>
+                        <div class="el-upload__tip">
+                            jpg/png 文件且小于 500kb
+                        </div>
+                    </template>
+                </el-upload>
+                <el-button class="ml-3" type="success" @click="submitUploadEdit">
+                    上传到服务器
+                </el-button>
+            </el-dialog>
+        </el-col>
+    </el-row>
+
+
+    <el-row>
+        <el-col>
+
+            <el-dialog v-model="dialogdViewVisible" title="查看" style="min-width:80%">
+                <el-image style="width: 100px; height: 100px"
+                    :src="'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg'" />
+
+
+                <template #footer>
+
+                </template>
+            </el-dialog>
+        </el-col>
+    </el-row>
+
+
+    <el-row>
+        <el-col>
+            <el-dialog v-model="dialogdAddVisible" title="添加" style="min-width:80%">
+
+                <el-upload ref="uploadRefAdd" class="upload-demo" drag multiple :auto-upload="false"
+                    :on-exceed="handleExceedAdd" :limit="1"
+                    action="https://run.mocky.io/v3/9d059bf9-4660-45f2-925d-ce80ad6c4d15">
+                    <el-icon class="el-icon--upload"><upload-filled /></el-icon>
+                    <div class="el-upload__text">
+                        拖动文件到这里 或 <em>点击上传</em>
+                    </div>
+                    <template #tip>
+                        <div class="el-upload__tip">
+                            jpg/png 文件且小于 500kb
+                        </div>
+                    </template>
+                </el-upload>
+                <el-button class="ml-3" type="success" @click="submitUploadAdd">
+                    上传到服务器
+                </el-button>
+
+            </el-dialog>
+        </el-col>
+    </el-row>
+
+
+
+    <el-row>
+        <el-col>
+            <el-dialog v-model="dialogdDeleteVisible" title="确定删除" width="50%">
+                <span>确定删除吗？</span>
+                <template #footer>
+                    <span class="dialog-footer">
+                        <el-button @click="dialogdDeleteVisible = false">取消</el-button>
+                        <el-button type="primary" @click="dialogdDeleteVisible = false">
+                            确定
+                        </el-button>
+                    </span>
+                </template>
+            </el-dialog>
+        </el-col>
+    </el-row>
+</template>
+              
+<script lang="ts" setup>
+import { genFileId } from 'element-plus'
+import { computed, ref } from 'vue'
+import type { UploadInstance, UploadProps, UploadRawFile } from 'element-plus'
+interface hinge {
+    name: string,
+}
+
+const dialogEditVisible = ref(false)
+const dialogdDeleteVisible = ref(false)
+const dialogdAddVisible = ref(false)
+const dialogdViewVisible = ref(false)
+const search = ref('')
+const filterTableData = computed(() =>
+    tableData.filter(
+        (data) =>
+            !search.value ||
+            data.name.toLowerCase().includes(search.value.toLowerCase())
+    )
+)
+const handleEdit = (index: number, row: hinge) => {
+    dialogEditVisible.value = true;
+}
+const handleDelete = (index: number, row: hinge) => {
+    dialogdDeleteVisible.value = true;
+}
+const handleView = (index: number, row: hinge) => {
+    dialogdViewVisible.value = true;
+}
+
+
+
+const uploadRefEdit = ref<UploadInstance>()
+const handleExceedEdit: UploadProps['onExceed'] = (files) => {
+    uploadRefEdit.value!.clearFiles()
+    const fileEdit = files[0] as UploadRawFile
+    fileEdit.uid = genFileId()
+    uploadRefEdit.value!.handleStart(fileEdit)
+}
+const submitUploadEdit = () => {
+    uploadRefEdit.value!.submit()
+}
+
+const uploadRefAdd = ref<UploadInstance>()
+const handleExceedAdd: UploadProps['onExceed'] = (files) => {
+    uploadRefAdd.value!.clearFiles()
+    const fileAdd = files[0] as UploadRawFile
+    fileAdd.uid = genFileId()
+    uploadRefAdd.value!.handleStart(fileAdd)
+}
+const submitUploadAdd = () => {
+    uploadRefAdd.value!.submit()
+}
+
+
+
+
+const tableData: hinge[] = [
+    {
+        name: "string",
+    },
+]
+</script>
+              
+              
+<style scoped>
+.box-card {
+    border: none;
+}
+</style>
