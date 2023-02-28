@@ -56,6 +56,16 @@ const routes: Array<RouteRecordRaw> = [
                 path:'AdminTwo',
                 name:'AdminTwo',
                 component: () => import('../components/Admin/AdminTwo.vue'),
+            },
+            {    
+                path:'UpdateAdmin',
+                name:'UpdateAdmin',
+                component: () => import('../components/Admin/UpdateAdmin.vue'),
+            },
+            {    
+                path:'HingeImage',
+                name:'HingeImage',
+                component: () => import('../components/Admin/HingeImage.vue'),
             }
         ]
     },

@@ -55,8 +55,6 @@
       <el-col>
 
           <el-dialog v-model="dialogEditVisible" title="修改" style="min-width:80%">
-
-
               <el-form ref="ruleFormRefEdit" :model="ruleFormEdit" :rules="rulesEdit" label-width="120px"
                   class="demo-ruleF" :size="formSize" status-icon label-position="left">
                   <el-form-item prop="name" label="名称">
@@ -646,8 +644,4 @@ const tableData: hinge[] = [
 .box-card {
   border: none;
 }
-:deep(.el-table__fixed-right), :deep(.el-table__fixed) {
-        height: auto !important;  
-        bottom: 30px !important; 
-    }
 </style>

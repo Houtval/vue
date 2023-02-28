@@ -48,6 +48,7 @@
 import { ref,reactive } from 'vue'
 import type { FormInstance, FormRules } from 'element-plus'
 import{ useRouter } from "vue-router"
+import { ElMessage } from 'element-plus'
 const name=ref(null)
 const password=ref(null)
 const formSize = ref('default')
@@ -70,6 +71,10 @@ const submitForm = async (formEl: FormInstance | undefined) => {
   if (!formEl) return
   await formEl.validate((valid, fields) => {
     if (valid) {
+      ElMessage({
+    message: '登录成功!',
+    type: 'success',
+  })
       router.push({path:'/AdminIndex'});
     } else {
       

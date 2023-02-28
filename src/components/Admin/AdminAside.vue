@@ -15,14 +15,37 @@
       <el-icon><House /></el-icon>
       <template #title>首页</template>
     </el-menu-item>
-  <el-menu-item index="AdminOne">
+
+  <el-sub-menu index="1">
+    <template #title>
+      <el-icon><Connection /></el-icon>
+    <span>铰链</span>
+    </template>
+    <el-menu-item index="AdminOne">
     <el-icon><Connection /></el-icon>
-      <template #title>铰链</template>
+      <template #title>铰链信息</template>
     </el-menu-item>
+    <el-menu-item index="HingeImage">
+      <el-icon><PictureFilled /></el-icon>
+      <template #title>图片上传</template>
+    </el-menu-item>
+  </el-sub-menu>
+
+
+  <el-sub-menu index="2">
+    <template #title>
+      <el-icon><Connection /></el-icon>
+    <span>滑轨</span>
+    </template>
     <el-menu-item index="AdminTwo">
-      <el-icon><Guide /></el-icon>
-      <template #title>滑轨</template>
+    <el-icon><Connection /></el-icon>
+      <template #title>滑轨信息</template>
     </el-menu-item>
+    <el-menu-item index="2-1">
+      <el-icon><PictureFilled /></el-icon>
+      <template #title>图片上传</template>
+    </el-menu-item>
+  </el-sub-menu>
   </el-menu>
 
 
