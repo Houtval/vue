@@ -7,7 +7,7 @@
       <el-row>
 
           <el-col :span="8" style="display: flex;justify-content: left;">
-              <el-button size="large" @click="dialogdAddVisible = true">添加</el-button>
+              <el-button size="large" @click="dialogdAddVisible = true">添加信息</el-button>
           </el-col>
 
           <el-col :span="8">
@@ -36,7 +36,7 @@
       <el-table-column label="铰链底座" prop="hingeBase" />
       <el-table-column label="可選設備" prop="optionalEquipment" />
       <el-table-column label="Url" prop="url" />
-      <el-table-column fixed="right" width="160">
+      <el-table-column fixed="right" width="510">
           <template #header>
               <span style="text-align: center;">
                   操作
@@ -44,9 +44,11 @@
           </template>
           <template #default="scope">
 
-              <el-button size="default" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
-
-              <el-button size="default" type="danger" @click="handleEdit(scope.$index, scope.row)">修改</el-button>
+              <el-button size="default" type="danger" @click="handleDelete(scope.$index, scope.row)">删除信息</el-button>
+              <el-button size="default" type="danger" @click="handleEdit(scope.$index, scope.row)">修改信息</el-button>
+              <el-button size="default"  @click="handleImageAdd">上传图片</el-button>
+              <el-button size="default"  @click="handleImageEdit">修改图片</el-button>
+              <el-button size="default"  @click="handleImageDel">删除图片</el-button>
           </template>
       </el-table-column>
   </el-table>
@@ -54,7 +56,7 @@
   <el-row>
       <el-col>
 
-          <el-dialog v-model="dialogEditVisible" title="修改" style="min-width:80%">
+          <el-dialog v-model="dialogEditVisible" title="修改信息" style="min-width:80%">
               <el-form ref="ruleFormRefEdit" :model="ruleFormEdit" :rules="rulesEdit" label-width="120px"
                   class="demo-ruleF" :size="formSize" status-icon label-position="left">
                   <el-form-item prop="name" label="名称">
@@ -91,10 +93,7 @@
                       <el-input v-model="ruleFormEdit.hingeBase" size="default" />
                   </el-form-item>
                   <el-form-item prop="optionalEquipment" label="可選設備">
-                      <el-input v-model="ruleFormEdit.openingAngle" size="default" />
-                  </el-form-item>
-                  <el-form-item prop="url" label="url">
-                      <el-input v-model="ruleFormEdit.url" size="default" />
+                      <el-input v-model="ruleFormEdit.optionalEquipment" size="default" />
                   </el-form-item>
               </el-form>
 
@@ -113,7 +112,7 @@
 
   <el-row>
       <el-col>
-          <el-dialog v-model="dialogdAddVisible" title="添加" style="min-width:80%">
+          <el-dialog v-model="dialogdAddVisible" title="添加信息" style="min-width:80%">
 
 
               <el-form ref="ruleFormRefAdd" :model="ruleFormAdd" :rules="rulesAdd" label-width="120px"
@@ -152,10 +151,7 @@
                       <el-input v-model="ruleFormAdd.hingeBase" size="default" />
                   </el-form-item>
                   <el-form-item prop="optionalEquipment" label="可選設備">
-                      <el-input v-model="ruleFormAdd.openingAngle" size="default" />
-                  </el-form-item>
-                  <el-form-item prop="url" label="url">
-                      <el-input v-model="ruleFormAdd.url" size="default" />
+                      <el-input v-model="ruleFormAdd.optionalEquipment" size="default" />
                   </el-form-item>
               </el-form>
 
@@ -175,7 +171,7 @@
 
   <el-row>
       <el-col>
-          <el-dialog v-model="dialogdDeleteVisible" title="确定删除" width="50%">
+          <el-dialog v-model="dialogdDeleteVisible" title="删除信息" width="50%">
               <span>确定删除吗？</span>
               <template #footer>
                   <span class="dialog-footer">
@@ -188,11 +184,104 @@
           </el-dialog>
       </el-col>
   </el-row>
+
+
+  <el-row>
+      <el-col>
+          <el-dialog v-model="dialogdImageAddVisible" title="上传图片" width="50%">
+            <el-upload
+    ref="uploadRefAdd"
+    class="upload-demo"
+    drag
+    multiple
+    :auto-upload="false"
+    :on-exceed="handleExceedAdd"
+    :limit="1"
+    action="https://run.mocky.io/v3/9d059bf9-4660-45f2-925d-ce80ad6c4d15"
+  >
+    <el-icon class="el-icon--upload"><upload-filled /></el-icon>
+    <div class="el-upload__text">
+      拖动文件到这里 或 <em>点击上传</em>
+    </div>
+    <template #tip>
+      <div class="el-upload__tip">
+        jpg/png 文件且小于 500kb
+      </div>
+    </template>
+  </el-upload>
+              <template #footer>
+                  <span class="dialog-footer">
+                      <el-button @click="dialogdDeleteVisible = false">取消</el-button>
+                      <el-button type="primary" @click=" submitUpload">
+                          确定
+                      </el-button>
+                  </span>
+              </template>
+          </el-dialog>
+      </el-col>
+  </el-row>
+
+  <el-row>
+      <el-col>
+          <el-dialog v-model="dialogImageEditVisible" title="修改图片" width="50%">
+            <el-upload
+    ref="uploadRefEdit"
+    class="upload-demo"
+    drag
+    multiple
+    :auto-upload="false"
+    :on-exceed="handleExceedEdit"
+    :limit="1"
+    action="https://run.mocky.io/v3/9d059bf9-4660-45f2-925d-ce80ad6c4d15"
+  >
+    <el-icon class="el-icon--upload"><upload-filled /></el-icon>
+    <div class="el-upload__text">
+      拖动文件到这里 或 <em>点击上传</em>
+    </div>
+    <template #tip>
+      <div class="el-upload__tip">
+        jpg/png 文件且小于 500kb
+      </div>
+    </template>
+  </el-upload>
+              <template #footer>
+                  <span class="dialog-footer">
+                      <el-button @click="dialogImageEditVisible = false">取消</el-button>
+                      <el-button type="primary" @click="submitUpload1">
+                          确定
+                      </el-button>
+                  </span>
+              </template>
+          </el-dialog>
+      </el-col>
+  </el-row>
+
+  <el-row>
+      <el-col>
+          <el-dialog v-model="dialogdImageDeleteVisible" title="删除图片" width="50%">
+              <span>确定删除吗？</span>
+              <template #footer>
+                  <span class="dialog-footer">
+                      <el-button @click="dialogdDeleteVisible = false">取消</el-button>
+                      <el-button type="primary" @click="dialogdImageDeleteVisible = false">
+                          确定
+                      </el-button>
+                  </span>
+              </template>
+          </el-dialog>
+      </el-col>
+  </el-row>
+
 </template>
             
 <script lang="ts" setup>
 import { computed, ref, reactive } from 'vue'
-import type { FormInstance, FormRules } from 'element-plus'
+import { UploadFilled } from '@element-plus/icons-vue'
+import { genFileId } from 'element-plus'
+import type { UploadInstance, UploadProps, UploadRawFile,FormInstance, FormRules } from 'element-plus'
+const uploadRefAdd = ref<UploadInstance>()
+const uploadRefEdit = ref<UploadInstance>()
+
 interface hinge {
   dampingSystem: string,
   doorPanelAdjustment: string,
@@ -213,6 +302,9 @@ interface hinge {
 const dialogEditVisible = ref(false)
 const dialogdDeleteVisible = ref(false)
 const dialogdAddVisible = ref(false)
+const dialogImageEditVisible = ref(false)
+const dialogdImageDeleteVisible = ref(false)
+const dialogdImageAddVisible = ref(false)
 const search = ref('')
 const filterTableData = computed(() =>
   tableData.filter(
@@ -227,6 +319,42 @@ const handleEdit = (index: number, row: hinge) => {
 const handleDelete = (index: number, row: hinge) => {
   dialogdDeleteVisible.value = true;
 }
+
+const handleImageEdit = (index: number, row: hinge) => {
+  dialogImageEditVisible.value = true;
+}
+const handleImageAdd = (index: number, row: hinge) => {
+  dialogdImageAddVisible.value = true;
+}
+const handleImageDel = (index: number, row: hinge) => {
+  dialogdImageDeleteVisible.value = true;
+}
+
+
+const handleExceedAdd: UploadProps['onExceed'] = (files) => {
+  uploadRefAdd.value!.clearFiles()
+  const file = files[0] as UploadRawFile
+  file.uid = genFileId()
+  uploadRefAdd.value!.handleStart(file)
+}
+
+const handleExceedEdit: UploadProps['onExceed'] = (files) => {
+  uploadRefEdit.value!.clearFiles()
+  const file = files[0] as UploadRawFile
+  file.uid = genFileId()
+  uploadRefEdit.value!.handleStart(file)
+}
+
+const submitUpload = () => {
+dialogdImageAddVisible.value=false;
+  uploadRefAdd.value!.submit()
+}
+
+const submitUpload1 = () => {
+dialogImageEditVisible.value=false;
+  uploadRefEdit.value!.submit()
+}
+
 
 const formSize = ref('default')
 const ruleFormRefEdit = ref<FormInstance>()
@@ -243,7 +371,6 @@ const ruleFormEdit = reactive({
   doorPanelAdjustment: '',
   hingeBase: '',
   optionalEquipment: '',
-  url: ''
 })
 const rulesEdit = reactive<FormRules>({
   name: [
@@ -282,9 +409,6 @@ const rulesEdit = reactive<FormRules>({
   optionalEquipment: [
       { required: true, message: '输入可選設備', trigger: 'blur' },
   ],
-  url: [
-      { required: true, message: '输入url', trigger: 'blur' },
-  ],
 })
 
 const submitFormEdit = async (formEl: FormInstance | undefined) => {
@@ -317,7 +441,6 @@ const ruleFormAdd = reactive({
   doorPanelAdjustment: '',
   hingeBase: '',
   optionalEquipment: '',
-  url: ''
 
 })
 const rulesAdd = reactive<FormRules>({
@@ -356,9 +479,6 @@ const rulesAdd = reactive<FormRules>({
   ],
   optionalEquipment: [
       { required: true, message: '输入可選設備', trigger: 'blur' },
-  ],
-  url: [
-      { required: true, message: '输入url', trigger: 'blur' },
   ],
 
 })
