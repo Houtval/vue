@@ -2,7 +2,7 @@
     <el-card class="box-card">
       <template #header>
   
-          <h3>铰链信息</h3>
+          <h3>滑轨信息</h3>
       </template>
         <el-row>
   
