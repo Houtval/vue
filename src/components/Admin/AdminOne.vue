@@ -176,7 +176,7 @@
               <template #footer>
                   <span class="dialog-footer">
                       <el-button @click="dialogdDeleteVisible = false">取消</el-button>
-                      <el-button type="primary" @click="dialogdDeleteVisible = false">
+                      <el-button type="primary" @click="deleteMessage()">
                           确定
                       </el-button>
                   </span>
@@ -279,6 +279,9 @@ import { computed, ref, reactive } from 'vue'
 import { UploadFilled } from '@element-plus/icons-vue'
 import { genFileId } from 'element-plus'
 import type { UploadInstance, UploadProps, UploadRawFile,FormInstance, FormRules } from 'element-plus'
+import * as apiHinge from '../../api/hingeControllers'
+import { toRaw } from '@vue/reactivity'
+import { ElMessage } from 'element-plus'
 const uploadRefAdd = ref<UploadInstance>()
 const uploadRefEdit = ref<UploadInstance>()
 
@@ -298,7 +301,7 @@ interface hinge {
   shutDownSystem: string,
   url: string
 }
-
+const selectId=ref("")
 const dialogEditVisible = ref(false)
 const dialogdDeleteVisible = ref(false)
 const dialogdAddVisible = ref(false)
@@ -313,10 +316,34 @@ const filterTableData = computed(() =>
           data.name.toLowerCase().includes(search.value.toLowerCase())
   )
 )
+
+
+const deleteMessage=()=>{
+    apiHinge.apiDropHinge(selectId.value).then((res)=>{
+        if(res.data.code=="20000")
+        {
+            ElMessage({
+            message: '删除成功!',
+            type: 'success',
+            })
+        }
+        else{
+            ElMessage({
+            message: res.data.message,
+            type: 'error',
+            })
+        }
+    })
+}
+
 const handleEdit = (index: number, row: hinge) => {
+    const list = toRaw(row)
+selectId.value=list['id']
   dialogEditVisible.value = true;
 }
 const handleDelete = (index: number, row: hinge) => {
+    const list = toRaw(row)
+selectId.value=list['id']
   dialogdDeleteVisible.value = true;
 }
 
@@ -415,7 +442,34 @@ const submitFormEdit = async (formEl: FormInstance | undefined) => {
   if (!formEl) return
   await formEl.validate((valid, fields) => {
       if (valid) {
-
+        apiHinge.apiupdateHinge(
+        ruleFormEdit.dampingSystem,
+        ruleFormEdit.doorPanelAdjustment,
+        ruleFormEdit.hingeBase,
+        ruleFormEdit.hingeCupInstallation,
+        selectId.value,
+        ruleFormEdit.installationMaterial,
+        ruleFormEdit.installationMethod,
+        ruleFormEdit.largeAngleHinge,
+        ruleFormEdit.model,
+        ruleFormEdit.name,
+        ruleFormEdit.openingAngle,
+        ruleFormEdit.optionalEquipment,
+        ruleFormEdit.shutDownSystem).then((res)=>{
+            if(res.data.code=="20000")
+        {
+            ElMessage({
+            message: '修改成功!',
+            type: 'success',
+            })
+        }
+        else{
+            ElMessage({
+            message: res.data.message,
+            type: 'error',
+            })
+        }
+        })
       } else {
 
       }
@@ -487,6 +541,36 @@ const submitFormAdd = async (formEl: FormInstance | undefined) => {
   if (!formEl) return
   await formEl.validate((valid, fields) => {
       if (valid) {
+        apiHinge.apiAddHinge(ruleFormAdd.dampingSystem,
+        ruleFormAdd.doorPanelAdjustment,
+        ruleFormAdd.hingeBase,
+        ruleFormAdd.hingeCupInstallation,
+        "434",
+        ruleFormAdd.installationMaterial,
+        ruleFormAdd.installationMethod,
+        ruleFormAdd.largeAngleHinge,
+        ruleFormAdd.model,
+        ruleFormAdd.name,
+        ruleFormAdd.openingAngle,
+        ruleFormAdd.optionalEquipment,
+        ruleFormAdd.shutDownSystem).then((res)=>{
+            if(res.data.code=="20000")
+                {
+                    ElMessage({
+                    message: '添加成功!',
+                    type: 'success',
+                    })
+                    dialogEditVisible.value=false;
+                }
+                else{
+                    ElMessage({
+                    message: res.data.message,
+                    type: 'error',
+                    })
+                    dialogEditVisible.value=false;
+                }
+                dialogdAddVisible.value=false;
+        })
 
       } else {
 
@@ -498,265 +582,26 @@ const clearFormAdd = (formEl: FormInstance | undefined) => {
   formEl.resetFields()
 }
 
-
 const tableData: hinge[] = [
-  {
-      dampingSystem: "string",
-      doorPanelAdjustment: "string",
-      hingeBase: "string",
-      hingeCupInstallation: "string",
-      id: "string",
-      installationMaterial: "string",
-      installationMethod: "string",
-      largeAngleHinge: "string",
-      model: "string",
-      name: "string",
-      openingAngle: "string",
-      optionalEquipment: "string",
-      shutDownSystem: "string",
-      url: "string"
-  },
-  {
-      dampingSystem: "string",
-      doorPanelAdjustment: "string",
-      hingeBase: "string",
-      hingeCupInstallation: "string",
-      id: "string",
-      installationMaterial: "string",
-      installationMethod: "string",
-      largeAngleHinge: "string",
-      model: "string",
-      name: "string",
-      openingAngle: "string",
-      optionalEquipment: "string",
-      shutDownSystem: "string",
-      url: "string"
-  },
-  {
-      dampingSystem: "string",
-      doorPanelAdjustment: "string",
-      hingeBase: "string",
-      hingeCupInstallation: "string",
-      id: "string",
-      installationMaterial: "string",
-      installationMethod: "string",
-      largeAngleHinge: "string",
-      model: "string",
-      name: "string",
-      openingAngle: "string",
-      optionalEquipment: "string",
-      shutDownSystem: "string",
-      url: "string"
-  },
-  {
-      dampingSystem: "string",
-      doorPanelAdjustment: "string",
-      hingeBase: "string",
-      hingeCupInstallation: "string",
-      id: "string",
-      installationMaterial: "string",
-      installationMethod: "string",
-      largeAngleHinge: "string",
-      model: "string",
-      name: "string",
-      openingAngle: "string",
-      optionalEquipment: "string",
-      shutDownSystem: "string",
-      url: "string"
-  },
-  {
-      dampingSystem: "string",
-      doorPanelAdjustment: "string",
-      hingeBase: "string",
-      hingeCupInstallation: "string",
-      id: "string",
-      installationMaterial: "string",
-      installationMethod: "string",
-      largeAngleHinge: "string",
-      model: "string",
-      name: "string",
-      openingAngle: "string",
-      optionalEquipment: "string",
-      shutDownSystem: "string",
-      url: "string"
-  },
-  {
-      dampingSystem: "string",
-      doorPanelAdjustment: "string",
-      hingeBase: "string",
-      hingeCupInstallation: "string",
-      id: "string",
-      installationMaterial: "string",
-      installationMethod: "string",
-      largeAngleHinge: "string",
-      model: "string",
-      name: "string",
-      openingAngle: "string",
-      optionalEquipment: "string",
-      shutDownSystem: "string",
-      url: "string"
-  },
-  {
-      dampingSystem: "string",
-      doorPanelAdjustment: "string",
-      hingeBase: "string",
-      hingeCupInstallation: "string",
-      id: "string",
-      installationMaterial: "string",
-      installationMethod: "string",
-      largeAngleHinge: "string",
-      model: "string",
-      name: "string",
-      openingAngle: "string",
-      optionalEquipment: "string",
-      shutDownSystem: "string",
-      url: "string"
-  },
-  {
-      dampingSystem: "string",
-      doorPanelAdjustment: "string",
-      hingeBase: "string",
-      hingeCupInstallation: "string",
-      id: "string",
-      installationMaterial: "string",
-      installationMethod: "string",
-      largeAngleHinge: "string",
-      model: "string",
-      name: "string",
-      openingAngle: "string",
-      optionalEquipment: "string",
-      shutDownSystem: "string",
-      url: "string"
-  },
-  {
-      dampingSystem: "string",
-      doorPanelAdjustment: "string",
-      hingeBase: "string",
-      hingeCupInstallation: "string",
-      id: "string",
-      installationMaterial: "string",
-      installationMethod: "string",
-      largeAngleHinge: "string",
-      model: "string",
-      name: "string",
-      openingAngle: "string",
-      optionalEquipment: "string",
-      shutDownSystem: "string",
-      url: "string"
-  },
-  {
-      dampingSystem: "string",
-      doorPanelAdjustment: "string",
-      hingeBase: "string",
-      hingeCupInstallation: "string",
-      id: "string",
-      installationMaterial: "string",
-      installationMethod: "string",
-      largeAngleHinge: "string",
-      model: "string",
-      name: "string",
-      openingAngle: "string",
-      optionalEquipment: "string",
-      shutDownSystem: "string",
-      url: "string"
-  },
-  {
-      dampingSystem: "string",
-      doorPanelAdjustment: "string",
-      hingeBase: "string",
-      hingeCupInstallation: "string",
-      id: "string",
-      installationMaterial: "string",
-      installationMethod: "string",
-      largeAngleHinge: "string",
-      model: "string",
-      name: "string",
-      openingAngle: "string",
-      optionalEquipment: "string",
-      shutDownSystem: "string",
-      url: "string"
-  },
-  {
-      dampingSystem: "string",
-      doorPanelAdjustment: "string",
-      hingeBase: "string",
-      hingeCupInstallation: "string",
-      id: "string",
-      installationMaterial: "string",
-      installationMethod: "string",
-      largeAngleHinge: "string",
-      model: "string",
-      name: "string",
-      openingAngle: "string",
-      optionalEquipment: "string",
-      shutDownSystem: "string",
-      url: "string"
-  },
-  {
-      dampingSystem: "string",
-      doorPanelAdjustment: "string",
-      hingeBase: "string",
-      hingeCupInstallation: "string",
-      id: "string",
-      installationMaterial: "string",
-      installationMethod: "string",
-      largeAngleHinge: "string",
-      model: "string",
-      name: "string",
-      openingAngle: "string",
-      optionalEquipment: "string",
-      shutDownSystem: "string",
-      url: "string"
-  },
-  {
-      dampingSystem: "string",
-      doorPanelAdjustment: "string",
-      hingeBase: "string",
-      hingeCupInstallation: "string",
-      id: "string",
-      installationMaterial: "string",
-      installationMethod: "string",
-      largeAngleHinge: "string",
-      model: "string",
-      name: "string",
-      openingAngle: "string",
-      optionalEquipment: "string",
-      shutDownSystem: "string",
-      url: "string"
-  },
-  {
-      dampingSystem: "string",
-      doorPanelAdjustment: "string",
-      hingeBase: "string",
-      hingeCupInstallation: "string",
-      id: "string",
-      installationMaterial: "string",
-      installationMethod: "string",
-      largeAngleHinge: "string",
-      model: "string",
-      name: "string",
-      openingAngle: "string",
-      optionalEquipment: "string",
-      shutDownSystem: "string",
-      url: "string"
-  },
-  {
-      dampingSystem: "string",
-      doorPanelAdjustment: "string",
-      hingeBase: "string",
-      hingeCupInstallation: "string",
-      id: "string",
-      installationMaterial: "string",
-      installationMethod: "string",
-      largeAngleHinge: "string",
-      model: "string",
-      name: "string",
-      openingAngle: "string",
-      optionalEquipment: "string",
-      shutDownSystem: "string",
-      url: "string"
-  },
-]
+    {
+  dampingSystem: '1',
+  doorPanelAdjustment: '1',
+  hingeBase: '1',
+  hingeCupInstallation: '1',
+  id: '1',
+  installationMaterial: '1',
+  installationMethod: '1',
+  largeAngleHinge: '1',
+  model: '1',
+  name: '1',
+  openingAngle: '1',
+  optionalEquipment: '1',
+  shutDownSystem: '1',
+  url: '1'
+    },
+  ]
+
+
 </script>
             
             

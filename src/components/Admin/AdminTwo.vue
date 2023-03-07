@@ -44,9 +44,9 @@
   
                 <el-button size="default" type="danger" @click="handleDelete(scope.$index, scope.row)">删除信息</el-button>
                 <el-button size="default" type="danger" @click="handleEdit(scope.$index, scope.row)">修改信息</el-button>
-                <el-button size="default"  @click="handleImageAdd">上传图片</el-button>
-                <el-button size="default"  @click="handleImageEdit">修改图片</el-button>
-                <el-button size="default"  @click="handleImageDel">删除图片</el-button>
+                <el-button size="default"  @click="handleImageAdd(scope.$index, scope.row)">上传图片</el-button>
+                <el-button size="default"  @click="handleImageEdit(scope.$index, scope.row)">修改图片</el-button>
+                <el-button size="default"  @click="handleImageDel(scope.$index, scope.row)">删除图片</el-button>
             </template>
         </el-table-column>
     </el-table>
@@ -162,7 +162,7 @@
                 <template #footer>
                     <span class="dialog-footer">
                         <el-button @click="dialogdDeleteVisible = false">取消</el-button>
-                        <el-button type="primary" @click="dialogdDeleteVisible = false">
+                        <el-button type="primary" @click="deleteMessage()">
                             确定
                         </el-button>
                     </span>
@@ -265,6 +265,9 @@
   import { UploadFilled } from '@element-plus/icons-vue'
   import { genFileId } from 'element-plus'
   import type { UploadInstance, UploadProps, UploadRawFile,FormInstance, FormRules } from 'element-plus'
+  import { toRaw } from '@vue/reactivity'
+  import * as apiSlide from '../../api/sildeControllers'
+  import { ElMessage } from 'element-plus'
   const uploadRefAdd = ref<UploadInstance>()
   const uploadRefEdit = ref<UploadInstance>()
   
@@ -282,7 +285,7 @@
     specifications: string,
     url: string
   }
-  
+  let selectId=ref("")
   const dialogEditVisible = ref(false)
   const dialogdDeleteVisible = ref(false)
   const dialogdAddVisible = ref(false)
@@ -297,20 +300,54 @@
             data.name.toLowerCase().includes(search.value.toLowerCase())
     )
   )
+
+
+  const deleteMessage=()=>{
+    apiSlide.apiDelete(selectId.value).then((res)=>{
+        if(res.data.code=="50002")
+        {
+            ElMessage({
+            message: '删除成功!',
+            type: 'success',
+            })
+        }
+        else{
+            ElMessage({
+            message: res.data.message,
+            type: 'error',
+            })
+        }
+    })
+    dialogdDeleteVisible.value = false
+}
+
+
+
+
   const handleEdit = (index: number, row: hinge) => {
+    const list = toRaw(row)
+    selectId.value=list['id']
     dialogEditVisible.value = true;
   }
   const handleDelete = (index: number, row: hinge) => {
-    dialogdDeleteVisible.value = true;
+    const list = toRaw(row)
+    selectId.value=list['id']
+    dialogdDeleteVisible.value=true;
   }
   
   const handleImageEdit = (index: number, row: hinge) => {
+    const list = toRaw(row)
+    selectId.value=list['url']
     dialogImageEditVisible.value = true;
   }
   const handleImageAdd = (index: number, row: hinge) => {
+    const list = toRaw(row)
+    selectId.value=list['url']
     dialogdImageAddVisible.value = true;
   }
   const handleImageDel = (index: number, row: hinge) => {
+    const list = toRaw(row)
+    selectId.value=list['url']
     dialogdImageDeleteVisible.value = true;
   }
   
@@ -392,7 +429,36 @@
     if (!formEl) return
     await formEl.validate((valid, fields) => {
         if (valid) {
-  
+            
+           apiSlide.apiUpdateSlide(ruleFormEdit.application,
+           ruleFormEdit.characteristic,
+           selectId.value,
+           ruleFormEdit.life,
+           ruleFormEdit.loads,
+           ruleFormEdit.material,
+           ruleFormEdit.model,
+           ruleFormEdit.name,
+           ruleFormEdit.section,
+           ruleFormEdit.size,
+           ruleFormEdit.specifications).then((res)=>{
+                if(res.data.code=="20000")
+                {
+                    ElMessage({
+                    message: '修改成功!',
+                    type: 'success',
+                    })
+                    dialogEditVisible.value=false;
+                }
+                else{
+                    ElMessage({
+                    message: res.data.message,
+                    type: 'error',
+                    })
+                    dialogEditVisible.value=false;
+                }
+           })
+
+
         } else {
   
         }
@@ -457,7 +523,30 @@
     if (!formEl) return
     await formEl.validate((valid, fields) => {
         if (valid) {
-  
+            apiSlide.apiInsertSlide(ruleFormAdd.application,
+            ruleFormAdd.characteristic,
+            ruleFormAdd.id,ruleFormAdd.life,
+            ruleFormAdd.loads,ruleFormAdd.material,
+            ruleFormAdd.model,ruleFormAdd.name,
+            ruleFormAdd.section,
+            ruleFormAdd.size,
+            ruleFormAdd.specifications).then((res)=>{
+                if(res.data.code=="20000")
+                {
+                    ElMessage({
+                    message: '修改成功!',
+                    type: 'success',
+                    })
+                    dialogdAddVisible.value=false;
+                }
+                else{
+                    ElMessage({
+                    message: res.data.message,
+                    type: 'error',
+                    })
+                    dialogdAddVisible.value=false;
+                }
+            })
         } else {
   
         }
@@ -485,6 +574,9 @@
     specifications: '1',
     },
   ]
+
+  apiSlide.apiSelectAll();
+
   </script>
               
               

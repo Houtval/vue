@@ -1,0 +1,1 @@
+import{A as a}from"../request/request.f7fcd005.js";async function t(t,s){return await a({url:"/login",method:"post",data:{id:t,password:s}}).then((a=>a))}async function s(t,s){return await a({url:"/updatePassword",method:"post",params:{id:t,password:s}}).then((a=>a))}export{t as a,s as b};

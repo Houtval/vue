@@ -11,7 +11,7 @@
     <el-col :span="3" style="display: flex;justify-content: right;">
         <el-dropdown trigger="click" style="cursor: pointer;">
     <span class="el-dropdown-link" style="color:white">
-        用户
+        {{ store.state.Id }}
       <el-icon class="el-icon--right" color="white">
         <arrow-down />
       </el-icon>

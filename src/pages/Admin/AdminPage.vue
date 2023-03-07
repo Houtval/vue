@@ -45,18 +45,19 @@
 </template>
 
 <script lang="ts" setup>
+import store from '../../store/index'
 import { ref,reactive } from 'vue'
 import type { FormInstance, FormRules } from 'element-plus'
 import{ useRouter } from "vue-router"
 import { ElMessage } from 'element-plus'
-const name=ref(null)
-const password=ref(null)
+import {apiLogin} from '../../api/adminControllers'
 const formSize = ref('default')
 const ruleFormRef = ref<FormInstance>()
 const router=useRouter()
 const ruleForm = reactive({
   username: '',
   password: ''
+  
 })
 const rules = reactive<FormRules>({
   username: [
@@ -71,11 +72,27 @@ const submitForm = async (formEl: FormInstance | undefined) => {
   if (!formEl) return
   await formEl.validate((valid, fields) => {
     if (valid) {
-      ElMessage({
-    message: '登录成功!',
-    type: 'success',
+      apiLogin(ruleForm.username,ruleForm.password).then((res)=>{
+        if(res.data.code=="20000")
+        {
+        ElMessage({
+        message: '登录成功!',
+        type: 'success',
+        })
+        store.commit("updateId",ruleForm.username);
+        }
+        else{
+          ElMessage({
+        message: res.data.message,
+        type: 'error',
+        })
+        store.commit("updateId",ruleForm.username);
+        }
+  router.push({path:'/AdminIndex'});
+
   })
-      router.push({path:'/AdminIndex'});
+     
+     
     } else {
       
     }

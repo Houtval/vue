@@ -1,20 +1,28 @@
 import Api from '../utils/request'
 
-const apiLogin = (Id:string,Password:string)=>{
-    Api({
+
+
+async function apiLogin(Id:string,Password:string) {
+   
+    let api= await Api({
         url:'/login',
         method:'post',  
-        params:{
+        data:{
             id:Id,
             password:Password
         }  
     }).then((res)=>{
        return res;
     });
+    return api;
 }
 
-const apiUpdatePassword = (Id:string,Password:string)=>{
-    Api({
+
+
+
+async function apiUpdatePassword(Id:string,Password:string) {
+   
+  let api= await Api({
         url:'/updatePassword',
         method:'post',  
         params:{
@@ -24,6 +32,7 @@ const apiUpdatePassword = (Id:string,Password:string)=>{
     }).then((res)=>{
        return res;
     });
-}
+    return api;
+ }
 
 export {apiLogin,apiUpdatePassword}

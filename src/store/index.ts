@@ -3,16 +3,20 @@ import Vuex from 'vuex'
  
 export default new Vuex.Store({
   state: {
+    Id:"",
     menuState:false,
     searchState:false,
     messagepage:1,
-    adminMenuisCollapse:false
+    adminMenuisCollapse:false,
   },
   getters: {
   },
   mutations: {
     muMenuState(state){
         state.menuState=!state.menuState;
+    },
+    updateId(state,newId){
+      state.Id=newId
     },
     musearchState(state){
         state.searchState=!state.searchState;
@@ -29,6 +33,7 @@ export default new Vuex.Store({
     }
   },
   actions: {
+
   },
   modules: {
   }

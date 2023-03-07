@@ -1,6 +1,6 @@
 import Api from '../utils/request'
 
-const apiAddHinge = (
+async function apiAddHinge (
     dampingSystem:string,
     doorPanelAdjustment:string,
     hingeBase:string,
@@ -14,9 +14,8 @@ const apiAddHinge = (
     openingAngle:string,
     optionalEquipment:string,
     shutDownSystem:string,
-    url:string
-    )=>{
-    Api({
+    ){
+   let api=await Api({
         url:'/json/AddHinge',
         method:'post',
         transformRequest: [function(data) {
@@ -37,11 +36,50 @@ const apiAddHinge = (
             "openingAngle":openingAngle ,
             "optionalEquipment":optionalEquipment ,
             "shutDownSystem": shutDownSystem,
-            "url": url
           }
     }).then((res)=>{
        return res;
     });
+    return api;
+}
+
+async function apiupdateHinge (
+    dampingSystem:string,
+    doorPanelAdjustment:string,
+    hingeBase:string,
+    hingeCupInstallation:string,
+    id:string,
+    installationMaterial:string,
+    installationMethod:string,
+    largeAngleHinge:string,
+    model:string,
+    name:string,
+    openingAngle:string,
+    optionalEquipment:string,
+    shutDownSystem:string,
+    ){
+   let api=await Api({
+        url:'/json/updateHinge',
+        method:'post',
+          params: {
+            "dampingSystem": dampingSystem,
+            "doorPanelAdjustment": doorPanelAdjustment,
+            "hingeBase": hingeBase,
+            "hingeCupInstallation": hingeCupInstallation,
+            "id": id,
+            "installationMaterial": installationMaterial,
+            "installationMethod":installationMethod ,
+            "largeAngleHinge": largeAngleHinge,
+            "model": model,
+            "name": name,
+            "openingAngle":openingAngle ,
+            "optionalEquipment":optionalEquipment ,
+            "shutDownSystem": shutDownSystem,
+          }
+    }).then((res)=>{
+       return res;
+    });
+    return api;
 }
 
 const apiaddImage = (File:FormData,Url:string)=>{
@@ -59,13 +97,14 @@ const apiaddImage = (File:FormData,Url:string)=>{
     });
 }
 
-const apiDropHinge = (id:string)=>{
-    Api({
-        url:"/json/HingeByAll"+id+"",
+async function apiDropHinge  (id:string){
+  let api=await  Api({
+        url:"/json/DropHinge/"+id+"",
         method:'get',    
     }).then((res)=>{
        return res;
     });
+    return api;
 }
 
 const apiFindHinge = (s:string)=>{
@@ -77,13 +116,18 @@ const apiFindHinge = (s:string)=>{
     });
 }
 
-const apiHingeByAll = ()=>{
-    Api({
+
+async function apiHingeByAll() {
+   
+    let response=await Api({
         url:'/json/HingeByAll',
         method:'post',    
     }).then((res)=>{
-       return res;
+        return res;
     });
+    return response;
 }
 
-export {apiHingeByAll,apiDropHinge,apiFindHinge,apiAddHinge,apiaddImage}
+
+
+export {apiHingeByAll,apiDropHinge,apiFindHinge,apiAddHinge,apiaddImage,apiupdateHinge}
