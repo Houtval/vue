@@ -80,6 +80,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
         type: 'success',
         })
         store.commit("updateId",ruleForm.username);
+        store.dispatch('allSlide')      
         }
         else{
           ElMessage({

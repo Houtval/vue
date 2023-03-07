@@ -41,7 +41,7 @@ async function apiInsertSlide  (
         method:'post',  
         params:{
             application:Application,
-            charcteristic:Charcteristic,
+            characteristic:Charcteristic,
             id:Id, 
             life:Life,
             loads:Loads,

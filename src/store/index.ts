@@ -1,5 +1,5 @@
 import Vuex from 'vuex'
- 
+import {apiSelectAll} from '../api/sildeControllers'
  
 export default new Vuex.Store({
   state: {
@@ -8,10 +8,14 @@ export default new Vuex.Store({
     searchState:false,
     messagepage:1,
     adminMenuisCollapse:false,
+    allSlide:[]
   },
   getters: {
   },
   mutations: {
+    ALLSLIDE (state, allSlide) {
+      state.allSlide = allSlide
+    },
     muMenuState(state){
         state.menuState=!state.menuState;
     },
@@ -33,7 +37,10 @@ export default new Vuex.Store({
     }
   },
   actions: {
-
+    async allSlide ({ commit }) { // userList是在mounted定义的
+      let result = await apiSelectAll() // 使用引入的api函数，获取userList的地址请求
+      commit('ALLSLIDE', result.data.data) // 提交result并把返回结果赋值给USERLIST，最后再在mutats里面定义USERLIST
+    }
   },
   modules: {
   }

@@ -275,7 +275,9 @@
 </template>
             
 <script lang="ts" setup>
-import { computed, ref, reactive } from 'vue'
+import { onMounted, onUpdated, onUnmounted } from 'vue'
+import {  ref, reactive,computed } from 'vue'
+import store from '../../store'
 import { UploadFilled } from '@element-plus/icons-vue'
 import { genFileId } from 'element-plus'
 import type { UploadInstance, UploadProps, UploadRawFile,FormInstance, FormRules } from 'element-plus'
@@ -284,7 +286,6 @@ import { toRaw } from '@vue/reactivity'
 import { ElMessage } from 'element-plus'
 const uploadRefAdd = ref<UploadInstance>()
 const uploadRefEdit = ref<UploadInstance>()
-
 interface hinge {
   dampingSystem: string,
   doorPanelAdjustment: string,
@@ -301,6 +302,12 @@ interface hinge {
   shutDownSystem: string,
   url: string
 }
+
+
+onMounted(() => {
+    store.dispatch('allSlide')      
+})
+
 const selectId=ref("")
 const dialogEditVisible = ref(false)
 const dialogdDeleteVisible = ref(false)
@@ -316,6 +323,8 @@ const filterTableData = computed(() =>
           data.name.toLowerCase().includes(search.value.toLowerCase())
   )
 )
+
+
 
 
 const deleteMessage=()=>{
@@ -381,6 +390,9 @@ const submitUpload1 = () => {
 dialogImageEditVisible.value=false;
   uploadRefEdit.value!.submit()
 }
+
+const allSlide=computed((store) =>store.state.allSlide)
+
 
 
 const formSize = ref('default')
@@ -582,25 +594,8 @@ const clearFormAdd = (formEl: FormInstance | undefined) => {
   formEl.resetFields()
 }
 
-const tableData: hinge[] = [
-    {
-  dampingSystem: '1',
-  doorPanelAdjustment: '1',
-  hingeBase: '1',
-  hingeCupInstallation: '1',
-  id: '1',
-  installationMaterial: '1',
-  installationMethod: '1',
-  largeAngleHinge: '1',
-  model: '1',
-  name: '1',
-  openingAngle: '1',
-  optionalEquipment: '1',
-  shutDownSystem: '1',
-  url: '1'
-    },
-  ]
-
+let tableData: hinge[] = []
+tableData=store.state.allSlide
 
 </script>
             

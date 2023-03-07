@@ -261,6 +261,7 @@
   </template>
               
   <script lang="ts" setup>
+  import { onMounted, onUpdated, onUnmounted } from 'vue'
   import { computed, ref, reactive } from 'vue'
   import { UploadFilled } from '@element-plus/icons-vue'
   import { genFileId } from 'element-plus'
@@ -268,6 +269,7 @@
   import { toRaw } from '@vue/reactivity'
   import * as apiSlide from '../../api/sildeControllers'
   import { ElMessage } from 'element-plus'
+  import store from '../../store'
   const uploadRefAdd = ref<UploadInstance>()
   const uploadRefEdit = ref<UploadInstance>()
   
@@ -294,12 +296,18 @@
   const dialogdImageAddVisible = ref(false)
   const search = ref('')
   const filterTableData = computed(() =>
-    tableData.filter(
-        (data) =>
-            !search.value ||
-            data.name.toLowerCase().includes(search.value.toLowerCase())
-    )
+  tableData.filter(
+      (data) =>
+          !search.value ||
+          data.name.toLowerCase().includes(search.value.toLowerCase())
   )
+)
+
+  onMounted(() => {
+    store.dispatch('allSlide')      
+})
+
+
 
 
   const deleteMessage=()=>{
@@ -557,25 +565,13 @@
     formEl.resetFields()
   }
   
-  
-  const tableData: hinge[] = [
-    {
-    url:'1',
-    application: '1',
-    characteristic: '1',
-    life: '1',
-    loads: '1',
-    id: '1',
-    material: '1',
-    model: '1',
-    section: '1',
-    name: '1',
-    size: '1',
-    specifications: '1',
-    },
-  ]
+  const allhinge=computed((store) =>store.state.allSlide)
 
-  apiSlide.apiSelectAll();
+  let tableData: hinge[] = []
+  tableData=store.state.allSlide
+
+
+
 
   </script>
               
