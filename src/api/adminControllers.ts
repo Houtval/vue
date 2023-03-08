@@ -5,9 +5,9 @@ import Api from '../utils/request'
 async function apiLogin(Id:string,Password:string) {
    
     let api= await Api({
-        url:'/login',
+        url:'/AdminController/login',
         method:'post',  
-        data:{
+        params:{
             id:Id,
             password:Password
         }  
@@ -23,7 +23,7 @@ async function apiLogin(Id:string,Password:string) {
 async function apiUpdatePassword(Id:string,Password:string) {
    
   let api= await Api({
-        url:'/updatePassword',
+        url:'/AdminController/updatePassword',
         method:'post',  
         params:{
             id:Id,

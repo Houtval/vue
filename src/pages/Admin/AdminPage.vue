@@ -79,17 +79,16 @@ const submitForm = async (formEl: FormInstance | undefined) => {
         message: '登录成功!',
         type: 'success',
         })
-        store.commit("updateId",ruleForm.username);
-        store.dispatch('allSlide')      
+        localStorage.setItem("id", ruleForm.username);
+        store.dispatch('allSlide')   
+        router.push({path:'/AdminIndex'});   
         }
         else{
           ElMessage({
         message: res.data.message,
         type: 'error',
         })
-        store.commit("updateId",ruleForm.username);
         }
-  router.push({path:'/AdminIndex'});
 
   })
      

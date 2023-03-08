@@ -57,17 +57,20 @@ const rules = reactive<FormRules>({
   ],
 })
 
+let id=localStorage.getItem("id")?.toString()==null?null:localStorage.getItem("id")?.toString()
+
 const submitForm = async (formEl: FormInstance | undefined) => {
   if (!formEl) return
   await formEl.validate((valid, fields) => {
     if (valid) {
-    apiUpdatePassword(store.state.Id,ruleForm.newPassword).then((res)=>{
+    apiUpdatePassword(id as string,ruleForm.newPassword).then((res)=>{
         if(res.data.code=="20000")
         {
           ElMessage({
                   message: '修改成功!请重新登录',
                   type: 'success',
                   })
+                  localStorage.removeItem("id");
                   router.push({path:'/AdminPage'});
         }
         else{

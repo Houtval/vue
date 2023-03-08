@@ -11,7 +11,7 @@
     <el-col :span="3" style="display: flex;justify-content: right;">
         <el-dropdown trigger="click" style="cursor: pointer;">
     <span class="el-dropdown-link" style="color:white">
-        {{ store.state.Id }}
+        {{ id }}
       <el-icon class="el-icon--right" color="white">
         <arrow-down />
       </el-icon>
@@ -38,7 +38,10 @@ const router = useRouter()
 const updateMenu=()=>{
 store.commit("updateadminMenuisCollapse");
 }
+
+const id=localStorage.getItem("id")?.toString()==null?null:localStorage.getItem("id")?.toString()
 const exit=()=>{
+  localStorage.removeItem("id")
   ElMessage({
     message: '注销成功!',
     type: 'success',

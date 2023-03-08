@@ -304,9 +304,7 @@ interface hinge {
 }
 
 
-onMounted(() => {
-    store.dispatch('allSlide')      
-})
+
 
 const selectId=ref("")
 const dialogEditVisible = ref(false)
@@ -328,18 +326,22 @@ const filterTableData = computed(() =>
 
 
 const deleteMessage=()=>{
-    apiHinge.apiDropHinge(selectId.value).then((res)=>{
-        if(res.data.code=="20000")
-        {
+    tableData.forEach(element => {
+                console.log(element)
+            });
+    apiHinge.apiDropHinge(selectId.value).then((res) => {
+        if (res.data.code == "20000") {
+
             ElMessage({
-            message: '删除成功!',
-            type: 'success',
+                message: '删除成功!',
+                type: 'success',
             })
+
         }
-        else{
+        else {
             ElMessage({
-            message: res.data.message,
-            type: 'error',
+                message: res.data.message,
+                type: 'error',
             })
         }
     })

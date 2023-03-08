@@ -39,7 +39,11 @@ async function apiInsertSlide  (
    let api=await Api({
         url:'/InsertSlide',
         method:'post',  
-        params:{
+        transformRequest: [function(data) {
+            data = JSON.stringify(data)
+            return data
+          }],
+        data:{
             application:Application,
             characteristic:Charcteristic,
             id:Id, 
@@ -61,19 +65,21 @@ async function apiInsertSlide  (
 
 async function apiUpdateSlide  (
     Application:string,
-    Charcteristic:string,
+    Characteristic:string,
     Id:string,Life:string,
     Loads:string,Material:string,
     Model:string,Name:string,
     Section:string,Size:string,
     Specifications:string,
     ){
+        console.log(Characteristic)
    let api=await Api({
         url:'/updateSlide',
         method:'post',  
         params:{
             application:Application,
-            charcteristic:Charcteristic,
+            characteristic:Characteristic,
+        
             id:Id, 
             life:Life,
             loads:Loads,

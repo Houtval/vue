@@ -2,6 +2,7 @@ import {
     RouteRecordRaw,
     _RouteRecordBase 
 } from 'vue-router'
+import { ElMessage } from 'element-plus'
 const routes: Array<RouteRecordRaw> = [
     {
         path: '/',
@@ -10,6 +11,12 @@ const routes: Array<RouteRecordRaw> = [
         redirect:'indexpage',
         children: [
             {
+                path: 'classifywindow',
+                name: 'classifywindow',
+                component: () => import('../components/ClassifyWindow.vue'), //.vue不能省略
+            },
+            {
+                
                 path: 'detiled',
                 name: 'detiled',
                 component: () => import('../pages/DetiledMessage.vue'), //.vue不能省略
@@ -41,6 +48,17 @@ const routes: Array<RouteRecordRaw> = [
         name: 'AdminIndex',
         component: () => import('../pages/Admin/AdminIndex.vue'),
         redirect:'/AdminIndex/MainIndex',
+        beforeEnter:(to,form,next)=>{
+            if (!localStorage.getItem('id')?.toString()) {
+                ElMessage({
+                    message: "未登录，请先登录",
+                    type: 'error',
+                    })
+                    next('/admin');
+            } else {
+                next();
+            }
+        },
         children:[
             {    
                 path:'MainIndex',

@@ -16,7 +16,7 @@ async function apiAddHinge (
     shutDownSystem:string,
     ){
    let api=await Api({
-        url:'/json/AddHinge',
+        url:'/HingeController/AddHinge',
         method:'post',
         transformRequest: [function(data) {
             data = JSON.stringify(data)

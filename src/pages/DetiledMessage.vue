@@ -13,16 +13,22 @@
                 <div class="demo-image__preview">
         <el-image
           style="width: 100%;height:200px;"
-          :src="url"
           :zoom-rate="1.2"
-          :preview-src-list="srcList"
           :initial-index="4"
           fit="cover"
         />
       </div>
-      <h1>测试</h1>
+      <h1>{{ store.state.allSlide[store.state.indexslide]["name"] }}</h1>
       <ul>
-        <li v-for="(o,index) in 10"  :key="o" :index="index+''">测试{{ index+1 }}</li>
+        <li>应用：{{ store.state.allSlide[store.state.indexslide]["application"] }}</li>
+        <li>特点：{{ store.state.allSlide[store.state.indexslide]["characteristic"] }}</li>
+        <li>寿命：{{ store.state.allSlide[store.state.indexslide]["life"] }}</li>
+        <li>负载：{{ store.state.allSlide[store.state.indexslide]["loads"] }}</li>
+        <li>材料：{{ store.state.allSlide[store.state.indexslide]["material"] }}</li>
+        <li>型号：{{ store.state.allSlide[store.state.indexslide]["model"]}}</li>
+        <li>节数：{{ store.state.allSlide[store.state.indexslide]["section"] }}</li>
+        <li>厚度：{{ store.state.allSlide[store.state.indexslide]["size"] }}</li>
+        <li>规格：{{ store.state.allSlide[store.state.indexslide]["specifications"] }}</li>
         
       </ul>
             </el-card>
@@ -36,6 +42,7 @@
     import type { FormInstance, FormRules } from 'element-plus'
     import headermessage from '../components/HeaderMessage.vue';
     import footermessage from '../components/FooterMessage.vue';
+    import{ useRouter } from "vue-router"
     import store from "../store/index"
     import {
       Document,
@@ -43,7 +50,8 @@
       Location,
       Setting,
     } from '@element-plus/icons-vue'
-    
+
+    const router=useRouter()
     const url =
       'https://fuss10.elemecdn.com/a/3f/3302e58f9a181d2509f3dc0fa68b0jpeg.jpeg'
     const srcList = [

@@ -261,7 +261,7 @@
   </template>
               
   <script lang="ts" setup>
-  import { onMounted, onUpdated, onUnmounted } from 'vue'
+  import { onMounted, onUpdated, onUnmounted} from 'vue'
   import { computed, ref, reactive } from 'vue'
   import { UploadFilled } from '@element-plus/icons-vue'
   import { genFileId } from 'element-plus'
@@ -303,17 +303,32 @@
   )
 )
 
-  onMounted(() => {
+
+onMounted(() => {
     store.dispatch('allSlide')      
 })
+
+let tableData: hinge[] = []
+tableData=store.state.allSlide
+
 
 
 
 
   const deleteMessage=()=>{
-    apiSlide.apiDelete(selectId.value).then((res)=>{
+   
+     apiSlide.apiDelete(selectId.value).then((res)=>{
         if(res.data.code=="50002")
         {
+            for(let i=0;i<tableData.length;i++)
+            {
+            const list = toRaw(tableData[i])
+            if(list['id']==selectId.value)
+            {
+            tableData.splice(i,1);
+            }
+            }
+            store.dispatch('allSlide')
             ElMessage({
             message: '删除成功!',
             type: 'success',
@@ -325,7 +340,7 @@
             type: 'error',
             })
         }
-    })
+    }) 
     dialogdDeleteVisible.value = false
 }
 
@@ -451,11 +466,32 @@
            ruleFormEdit.specifications).then((res)=>{
                 if(res.data.code=="20000")
                 {
+
+                    for(let i=0;i<tableData.length;i++)
+                    {
+                        const list = toRaw(tableData[i])
+                        if(list['id']==selectId.value)
+                        {
+                        tableData[i].application=ruleFormEdit.application;
+                        tableData[i].characteristic=ruleFormEdit.characteristic;
+                        tableData[i].life=ruleFormEdit.life;
+                        tableData[i].loads=ruleFormEdit.loads;
+                        tableData[i].material=ruleFormEdit.material;
+                        tableData[i].model=ruleFormEdit.model;
+                        tableData[i].name=ruleFormEdit.name;
+                        tableData[i].section=ruleFormEdit.section;
+                        tableData[i].size=ruleFormEdit.size;
+                        tableData[i].specifications=ruleFormEdit.specifications;
+                        }
+                    }
+
+                    store.dispatch('allSlide')
                     ElMessage({
                     message: '修改成功!',
                     type: 'success',
                     })
-                    dialogEditVisible.value=false;
+                    dialogEditVisible.value=false
+                      
                 }
                 else{
                     ElMessage({
@@ -541,10 +577,13 @@
             ruleFormAdd.specifications).then((res)=>{
                 if(res.data.code=="20000")
                 {
+                    
+                    store.dispatch('allSlide')
                     ElMessage({
-                    message: '修改成功!',
+                    message: '添加成功!',
                     type: 'success',
                     })
+                    tableData.push();
                     dialogdAddVisible.value=false;
                 }
                 else{
@@ -565,10 +604,10 @@
     formEl.resetFields()
   }
   
-  const allhinge=computed((store) =>store.state.allSlide)
 
-  let tableData: hinge[] = []
-  tableData=store.state.allSlide
+
+
+  
 
 
 

@@ -14,7 +14,7 @@ import {
   Location,
   Setting,
 } from '@element-plus/icons-vue'
-
+store.dispatch('allSlide') 
 </script>
 
 <style scoped>
