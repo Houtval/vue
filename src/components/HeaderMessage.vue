@@ -47,22 +47,16 @@
         default-active="2"
         class="el-menu-vertical-demo"
         router
-        
+     
       >
-        <!-- <el-sub-menu index="1">
+        <el-sub-menu :index="index" v-for="(item,index) in Object.values(store.state.allMenu).length" :key="index">
           <template #title>
-            <span>关于xx</span>
+            <span>{{ Object.values(store.state.allMenu) }}</span>
           </template>
           <el-menu-item-group>
-            <el-menu-item index="1-1">董事长寄语</el-menu-item>
-            <el-menu-item index="1-2">xx概况</el-menu-item>
-            <el-menu-item index="1-3">xx概况</el-menu-item>
-            <el-menu-item index="1-4">生产基地</el-menu-item>
-            <el-menu-item index="1-5">xx历史</el-menu-item>
-            <el-menu-item index="1-6">xx文化</el-menu-item>
-            <el-menu-item index="1-6">xx优势</el-menu-item>
+            <el-menu-item index="1-1"></el-menu-item>
           </el-menu-item-group>
-        </el-sub-menu> -->
+        </el-sub-menu>
 
         <el-menu-item index="AdminPage">
           <el-icon><Avatar /></el-icon>
@@ -99,6 +93,10 @@ const isCollapse = ref(true)
 const openMenuOrClose=()=>{
   store.commit('muMenuState')
 }
+
+
+console.log(Object.values(store.state.allMenu))
+
 const openSearch=()=>{
   store.commit('musearchState')
 }

@@ -59,7 +59,7 @@ async function apiupdateHinge (
     shutDownSystem:string,
     ){
    let api=await Api({
-        url:'/json/updateHinge',
+        url:'/HingeController/updateHinge',
         method:'post',
           params: {
             "dampingSystem": dampingSystem,
@@ -99,7 +99,7 @@ const apiaddImage = (File:FormData,Url:string)=>{
 
 async function apiDropHinge  (id:string){
   let api=await  Api({
-        url:"/json/DropHinge/"+id+"",
+        url:"/HingeController/DropHinge/"+id+"",
         method:'get',    
     }).then((res)=>{
        return res;
@@ -120,7 +120,7 @@ const apiFindHinge = (s:string)=>{
 async function apiHingeByAll() {
    
     let response=await Api({
-        url:'/json/HingeByAll',
+        url:'/HingeController/FindAllHinge',
         method:'post',    
     }).then((res)=>{
         return res;

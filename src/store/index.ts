@@ -1,5 +1,7 @@
 import Vuex from 'vuex'
 import {apiSelectAll} from '../api/sildeControllers'
+import {apiHingeByAll} from '../api/hingeControllers'
+import{apiGetAllMenu}from '../api/menuControllers'
 
  
 export default new Vuex.Store({
@@ -10,13 +12,17 @@ export default new Vuex.Store({
     messagepage:1,
     adminMenuisCollapse:false,
     allSlide:[],
-    allHinge:[]
+    allHinge:[],
+    allMenu:[]
   },
   getters: {
   },
   mutations: {
     updateIndexSlide(state,index){
       state.indexslide=index
+    },
+    ALLMENU (state, allMenu) {
+      state.allMenu = allMenu
     },
     ALLSLIDE (state, allSlide) {
       state.allSlide = allSlide
@@ -50,9 +56,16 @@ export default new Vuex.Store({
     },
 
     async allHinge ({ commit }) { // userList是在mounted定义的
-      let result = await apiSelectAll() // 使用引入的api函数，获取userList的地址请求
+      let result = await apiHingeByAll() // 使用引入的api函数，获取userList的地址请求
       if(result.data.code=="20000"){
-        commit('ALLSLIDE', result.data.data)// 提交result并把返回结果赋值给USERLIST，最后再在mutats里面定义USERLIST
+        commit('ALLHINGE', result.data.data)// 提交result并把返回结果赋值给USERLIST，最后再在mutats里面定义USERLIST
+      }  
+    },
+
+    async allMenu ({ commit }) { // userList是在mounted定义的
+      let result = await apiGetAllMenu() // 使用引入的api函数，获取userList的地址请求
+      if(result.data.code=="20000"){
+        commit('ALLMENU', result.data.data)// 提交result并把返回结果赋值给USERLIST，最后再在mutats里面定义USERLIST
       }  
     }
   },

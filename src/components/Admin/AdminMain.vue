@@ -19,7 +19,8 @@ if(localStorage.getItem("id")?.toString()==null)
   router.push({path:'/AdminPage'});
 }
 onMounted(() => { 
-   store.dispatch('allSlide')  
+   store.dispatch('allSlide')
+   store.dispatch('allHinge')  
    router.push({path:'/AdminIndex/MainIndex'})
 })
 </script>

@@ -322,21 +322,31 @@ const filterTableData = computed(() =>
   )
 )
 
+onMounted(() => {
+    store.dispatch('allHinge')      
+})
+
+
+let tableData: hinge[] = []
+tableData=store.state.allHinge
 
 
 
 const deleteMessage=()=>{
-    tableData.forEach(element => {
-                console.log(element)
-            });
     apiHinge.apiDropHinge(selectId.value).then((res) => {
-        if (res.data.code == "20000") {
-
+        if (res.data.code == "20001") {
+            for(let i=0;i<tableData.length;i++)
+            {
+            const list = toRaw(tableData[i])
+            if(list['id']==selectId.value)
+            {
+            tableData.splice(i,1);
+            }
+            }
             ElMessage({
                 message: '删除成功!',
                 type: 'success',
             })
-
         }
         else {
             ElMessage({
@@ -344,6 +354,7 @@ const deleteMessage=()=>{
                 type: 'error',
             })
         }
+        dialogdDeleteVisible.value=false;
     })
 }
 
@@ -354,8 +365,8 @@ selectId.value=list['id']
 }
 const handleDelete = (index: number, row: hinge) => {
     const list = toRaw(row)
-selectId.value=list['id']
-  dialogdDeleteVisible.value = true;
+    selectId.value=list['id']
+    dialogdDeleteVisible.value = true;
 }
 
 const handleImageEdit = (index: number, row: hinge) => {
@@ -472,6 +483,25 @@ const submitFormEdit = async (formEl: FormInstance | undefined) => {
         ruleFormEdit.shutDownSystem).then((res)=>{
             if(res.data.code=="20000")
         {
+            for(let i=0;i<tableData.length;i++)
+                    {
+                        const list = toRaw(tableData[i])
+                        if(list['id']==selectId.value)
+                        {
+                        tableData[i].dampingSystem=ruleFormEdit.dampingSystem;
+                        tableData[i].doorPanelAdjustment=ruleFormEdit.doorPanelAdjustment;
+                        tableData[i].hingeBase=ruleFormEdit.hingeBase;
+                        tableData[i].hingeCupInstallation=ruleFormEdit.hingeCupInstallation;
+                        tableData[i].installationMaterial=ruleFormEdit.installationMaterial;
+                        tableData[i].installationMethod=ruleFormEdit.installationMethod;
+                        tableData[i].largeAngleHinge=ruleFormEdit.largeAngleHinge;
+                        tableData[i].model=ruleFormEdit.model;
+                        tableData[i].name=ruleFormEdit.name;
+                        tableData[i].openingAngle=ruleFormEdit.openingAngle;
+                        tableData[i].shutDownSystem=ruleFormEdit.shutDownSystem;
+                        }
+                    }
+
             ElMessage({
             message: '修改成功!',
             type: 'success',
@@ -570,6 +600,23 @@ const submitFormAdd = async (formEl: FormInstance | undefined) => {
         ruleFormAdd.shutDownSystem).then((res)=>{
             if(res.data.code=="20000")
                 {
+                    let a: hinge={
+                        dampingSystem: res.data.data.dampingSystem,
+                        doorPanelAdjustment: res.data.data.doorPanelAdjustment,
+                        hingeBase: res.data.data.hingeBase,
+                        hingeCupInstallation: res.data.data.hingeCupInstallation,
+                        id: res.data.data.id,
+                        installationMaterial: res.data.data.installationMaterial,
+                        installationMethod: res.data.data.installationMethod,
+                        largeAngleHinge: res.data.data.largeAngleHinge,
+                        model: res.data.data.model,
+                        name: res.data.data.name,
+                        openingAngle: res.data.data.openingAngle,
+                        optionalEquipment: res.data.data.optionalEquipment,
+                        shutDownSystem: res.data.data.shutDownSystem,
+                        url: res.data.data.url
+                    }
+                    tableData.push(a)
                     ElMessage({
                     message: '添加成功!',
                     type: 'success',
@@ -596,8 +643,7 @@ const clearFormAdd = (formEl: FormInstance | undefined) => {
   formEl.resetFields()
 }
 
-let tableData: hinge[] = []
-tableData=store.state.allSlide
+
 
 </script>
             

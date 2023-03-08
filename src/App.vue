@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import store from './store/index';
 import index from '../src/pages/Index.vue'
 </script>
 

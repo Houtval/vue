@@ -72,13 +72,14 @@ const apiDeleteSecondMenu = (s:string[])=>{
     });
 }
 
-const apiGetMenu = (s:string[])=>{
-    Api({
-        url:'/getList',
+async function apiGetAllMenu(){
+  let api= await Api({
+        url:'MenuController/getList',
         method:'post',  
     }).then((res)=>{
        return res;
     });
+    return api;
 }
 
-export {apiAddFirstMenu,apiAddSecondMenu,apiAlterFirstMenu,apiAlterSecondMenu,apiDeleteFirstMenu,apiDeleteSecondMenu,apiGetMenu}
+export {apiAddFirstMenu,apiAddSecondMenu,apiAlterFirstMenu,apiAlterSecondMenu,apiDeleteFirstMenu,apiDeleteSecondMenu,apiGetAllMenu}

@@ -43,7 +43,6 @@ import {
   Location,
   Setting,
 } from '@element-plus/icons-vue'
-apiLogin("32","4234");
 const router = useRouter()
 const Detiledmessage=()=>{
   router.push({path:'/detiled'});

@@ -15,6 +15,8 @@ import {
   Setting,
 } from '@element-plus/icons-vue'
 store.dispatch('allSlide') 
+store.dispatch('allHinge') 
+store.dispatch('allMenu') 
 </script>
 
 <style scoped>

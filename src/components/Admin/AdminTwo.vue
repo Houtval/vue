@@ -577,13 +577,26 @@ tableData=store.state.allSlide
             ruleFormAdd.specifications).then((res)=>{
                 if(res.data.code=="20000")
                 {
-                    
+                    let a: hinge={
+                        application: res.data.data.application,
+                        characteristic: res.data.data.characteristic,
+                        life: res.data.data.life,
+                        loads: res.data.data.loads,
+                        id: res.data.data.id,
+                        material: res.data.data.material,
+                        model: res.data.data.model,
+                        section: res.data.data.section,
+                        name: res.data.data.name,
+                        size: res.data.data.size,
+                        specifications: res.data.data.specifications,
+                        url:res.data.data.url
+                    }
+                    tableData.push(a);
                     store.dispatch('allSlide')
                     ElMessage({
                     message: '添加成功!',
                     type: 'success',
                     })
-                    tableData.push();
                     dialogdAddVisible.value=false;
                 }
                 else{
