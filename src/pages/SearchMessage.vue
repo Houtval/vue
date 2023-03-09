@@ -2,12 +2,41 @@
   <el-scrollbar>
     <headermessage></headermessage>
       <el-row style="min-height: 500px;background-color: rgb(235, 235, 235);">
-        <el-col>
-    
-            <el-card v-for="(o,index) in 10" :key="o"  class="box-card" style="width: 80%;margin: 20px auto;" @click="detiled()">
+        <el-col :span="12">
+          <el-card  class="box-card" style="width: 80%;margin: 20px auto;">
                 <el-row>
                     <el-col :span="3">
-                        测试
+                        <h2>铰链</h2>
+                    </el-col>
+                </el-row>
+            </el-card>
+            <el-card v-for="(o,index) in store.state.searchHinge.length" :key="o"  class="box-card" style="width: 80%;margin: 20px auto;" @click="Hinge(index)">
+                <el-row>
+                    <el-col :span="3">
+                        {{ store.state.searchHinge[index]['name'] }}
+                    </el-col>
+                    <el-col :span="12">
+
+                    </el-col>
+                    <el-col :span="9">
+                      {{ store.state.searchHinge[index]['id'] }}
+                    </el-col>
+                </el-row>
+            </el-card>
+        </el-col>
+
+        <el-col :span="12">
+          <el-card  class="box-card" style="width: 80%;margin: 20px auto;">
+                <el-row>
+                    <el-col :span="3">
+                        <h2>滑轨</h2>
+                    </el-col>
+                </el-row>
+            </el-card>
+            <el-card v-for="(o,index) in store.state.searchSlide.length" :key="o"  class="box-card" style="width: 80%;margin: 20px auto;" @click="Slide(index)">
+                <el-row>
+                    <el-col :span="3">
+                        {{ store.state.searchSlide[index]['name'] }}
                     </el-col>
                     <el-col :span="18">
 
@@ -17,10 +46,11 @@
                     </el-col>
                 </el-row>
             </el-card>
-    
-        
         </el-col>
+
       </el-row>
+
+    
     
    
    
@@ -42,12 +72,19 @@
       Setting,
     } from '@element-plus/icons-vue'
     
+
+ 
+
     const router=useRouter()
     const scrollfunction=()=>{
     
     }
-    const detiled=()=>{
-      router.push({path:'/detiled'});
+    const Hinge=(index:number)=>{
+      store.commit('updateSearch',index)
+      router.push({path:'/HingeMessage'});
+    }
+    const Slide=(index:number)=>{
+      console.log(index);
     }
     </script>
     
