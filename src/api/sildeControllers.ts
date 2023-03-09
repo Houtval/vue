@@ -27,6 +27,19 @@ async function apiDelete(Id:string){
     return api;
 }
 
+async function apiSelectByName(Name:string){
+    let api= Api({
+        url:'/SelectByName',
+        method:'post',  
+        params:{
+            name:Name 
+        }  
+    }).then((res)=>{
+       return res;
+    });
+    return api;
+}
+
 async function apiInsertSlide  (
     Application:string,
     Charcteristic:string,
@@ -132,4 +145,5 @@ export {
     apiInsertSlide,
     apiSelectAll,
     apiSelectByAll,
+    apiSelectByName,
     }

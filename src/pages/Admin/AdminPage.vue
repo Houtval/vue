@@ -29,7 +29,7 @@
     </el-form-item>
 
     <el-form-item  prop="password" label="密码">
-      <el-input v-model="ruleForm.password" size="large"/>
+      <el-input v-model="ruleForm.password" size="large" show-password/>
        
     </el-form-item>
   </el-form>

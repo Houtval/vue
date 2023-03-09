@@ -40,10 +40,10 @@
     <script lang="ts" setup>
     import { ref,reactive } from 'vue'
     import type { FormInstance, FormRules } from 'element-plus'
-    import headermessage from '../components/HeaderMessage.vue';
-    import footermessage from '../components/FooterMessage.vue';
+    import headermessage from '../../components/HeaderMessage.vue';
+    import footermessage from '../../components/FooterMessage.vue';
     import{ useRouter } from "vue-router"
-    import store from "../store/index"
+    import store from "../../store/index"
     import {
       Document,
       Menu as IconMenu,

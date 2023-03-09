@@ -1,23 +1,7 @@
 <template>
-    <el-scrollbar>
-   <el-row>
-     <el-col>
- <el-menu
-     :default-active="activeIndex"
-     class="el-menu-demo"
-     mode="horizontal"
-     @select="handleSelect"
-   >
-   <el-menu-item v-for="(o,i) in 1" :key="o" :index="i+''">滑轨</el-menu-item>
- </el-menu>
- </el-col>
- </el-row>
- 
- </el-scrollbar>
- 
  <el-row style="background-color: rgb(235, 235, 235);padding-top:2%;">
      <el-col
-       v-for="(o, index) in store.state.allSlide.length"
+       v-for="(o, index) in store.state.allHinge.length"
        :key="o"
        :span="6"
        :offset="index%3==0 ? 1 : 2"
@@ -25,31 +9,26 @@
      >
        <el-card :body-style="{ padding: '0px' }" shadow="hover" @click="Detiledmessage(index)">
          <img
-           :src="store.state.allSlide[index]['url']"
+           :src="store.state.allHinge[index]['url']"
            class="image"
          />
          <div style="padding: 15px">
-           <span>{{ store.state.allSlide[index]["name"] }}</span>
+           <span>{{ store.state.allHinge[index]["name"] }}</span>
          </div>
        </el-card>
      </el-col>
    </el-row>
- <el-row style="background-color: rgb(235,235,235);padding-bottom: 2%;">
-     <el-col>
-         <el-button type="primary" >上一页</el-button>
-         <el-button type="primary" >下一页</el-button>
-     </el-col>
- </el-row>
+
  </template>
  
  <script lang="ts" setup>
  import { ref } from 'vue'
  import { useRouter } from 'vue-router'
- import store from '../store/index';
+ import store from '../../store/index';
  const router=useRouter()
  const Detiledmessage=(index:number)=>{
-  store.commit('updateIndexSlide',index)
-   router.push({path:'/detiled',});
+  store.commit('updateIndexHinge',index)
+   router.push({path:'/HingeMessage',});
  }
  
  const activeIndex = ref('1')

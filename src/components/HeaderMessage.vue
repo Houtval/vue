@@ -49,16 +49,16 @@
         router
      
       >
-        <el-sub-menu :index="index" v-for="(item,index) in Object.values(store.state.allMenu).length" :key="index">
+        <!-- <el-sub-menu :index="index" v-for="(item,index) in Object.values(store.state.allMenu).length" :key="index">
           <template #title>
-            <span>{{ Object.values(store.state.allMenu) }}</span>
+            <span>{{  }}</span>
           </template>
           <el-menu-item-group>
             <el-menu-item index="1-1"></el-menu-item>
           </el-menu-item-group>
-        </el-sub-menu>
+        </el-sub-menu> -->
 
-        <el-menu-item index="AdminPage">
+        <el-menu-item index="/AdminPage">
           <el-icon><Avatar /></el-icon>
           <span>管理员登录</span>
         </el-menu-item>
@@ -120,6 +120,9 @@ const submitForm = async (formEl: FormInstance | undefined) => {
   await formEl.validate((valid, fields) => {
     if (valid) {
       store.commit('musearchState')
+      store.commit('updateSearch',ruleForm.search)
+      store.dispatch('searchSlide')
+      store.dispatch('searchHinge')
       router.push({path:'/search'});
 
     } else {

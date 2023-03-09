@@ -82,20 +82,7 @@ async function apiupdateHinge (
     return api;
 }
 
-const apiaddImage = (File:FormData,Url:string)=>{
-    Api({
-        url:"/json/AddImage",
-        method:'post', 
-        params:{
-            url:Url
-       },
-       data:{
-            file:File
-       }   
-    }).then((res)=>{
-       return res;
-    });
-}
+
 
 async function apiDropHinge  (id:string){
   let api=await  Api({
@@ -107,15 +94,17 @@ async function apiDropHinge  (id:string){
     return api;
 }
 
-const apiFindHinge = (s:string)=>{
-    Api({
-        url:"/json/HingeByAll"+s+"",
+
+async function apiHingeFindHinge(value:string) {
+   
+    let response=await Api({
+        url:'/HingeController/FindHinge/'+value,
         method:'get',    
     }).then((res)=>{
-       return res;
+        return res;
     });
+    return response;
 }
-
 
 async function apiHingeByAll() {
    
@@ -130,4 +119,4 @@ async function apiHingeByAll() {
 
 
 
-export {apiHingeByAll,apiDropHinge,apiFindHinge,apiAddHinge,apiaddImage,apiupdateHinge}
+export {apiHingeByAll,apiDropHinge,apiAddHinge,apiupdateHinge,apiHingeFindHinge}

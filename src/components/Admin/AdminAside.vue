@@ -3,7 +3,7 @@
 <span>{{ store.state.adminMenuisCollapse==false?"管理系统":"系统" }}</span>
 </div>
   <el-menu
-    default-active="2"
+    default-active="MainIndex"
     class="el-menu-vertical-demo"
     :collapse="store.state.adminMenuisCollapse"
     background-color="rgb(40,40,40)"

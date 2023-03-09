@@ -24,19 +24,37 @@
   </el-col>
 </el-row>
 
-  <classifywindow></classifywindow>
+
+<el-scrollbar>
+   <el-row>
+     <el-col>
+ <el-menu
+     default-active="/indexpage/hingeall"
+     class="el-menu-demo"
+     mode="horizontal"
+     @select="handleSelect"
+     router
+   >
+   <el-menu-item  index="/indexpage/hingeall">铰链</el-menu-item>
+   <el-menu-item  index="/indexpage/slideall">滑轨</el-menu-item>
+ </el-menu>
+ </el-col>
+ </el-row>
+ </el-scrollbar>
+
+  <router-view></router-view>
 <footermessage></footermessage>
 </el-scrollbar>
 </template>
 <script lang="ts" setup>
 import headermessage from '../components/HeaderMessage.vue';
 import footermessage from '../components/FooterMessage.vue';
-import classifywindow from '../components/ClassifyWindow.vue'
 import {apiLogin} from '../api/adminControllers'
 import { useRouter } from 'vue-router'
 import { ref,reactive } from 'vue'
 import type { FormInstance, FormRules } from 'element-plus'
 import store from "../store/index"
+import { onMounted, onUpdated, onUnmounted} from 'vue'
 import {
   Document,
   Menu as IconMenu,
@@ -47,6 +65,14 @@ const router = useRouter()
 const Detiledmessage=()=>{
   router.push({path:'/detiled'});
 }
+
+onMounted(() => { 
+   router.push({path:'/indexpage/hingeall'})
+})
+const activeIndex = ref('1')
+ const handleSelect = (key: string, keyPath: string[]) => {
+   
+ }
 </script>
 
 <style scoped>

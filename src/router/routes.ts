@@ -11,15 +11,16 @@ const routes: Array<RouteRecordRaw> = [
         redirect:'indexpage',
         children: [
             {
-                path: 'classifywindow',
-                name: 'classifywindow',
-                component: () => import('../components/ClassifyWindow.vue'), //.vue不能省略
+                
+                path: 'SildeMessage',
+                name: 'SildeMessage',
+                component: () => import('../pages/Message/SildeMessage.vue'), //.vue不能省略
             },
             {
                 
-                path: 'detiled',
-                name: 'detiled',
-                component: () => import('../pages/DetiledMessage.vue'), //.vue不能省略
+                path: 'HingeMessage',
+                name: 'HingeMessage',
+                component: () => import('../pages/Message/HingeMessage.vue'), //.vue不能省略
             },
             {
                 path: 'AdminPage',
@@ -35,7 +36,21 @@ const routes: Array<RouteRecordRaw> = [
                 path: 'indexpage',
                 name: 'indexpage',
                 component: () => import('../pages/IndexPage.vue'), //.vue不能省略
+                redirect:'/indexpage/hingeall',
+                children:[
+                {
+                    path: 'hingeall',
+                    name: 'hingeall',
+                    component: () => import('../components/classifywindow/HingeAll.vue'),
+                },
+                {
+                    path: 'slideall',
+                    name: 'slideall',
+                    component: () => import('../components/classifywindow/SildeAll.vue'),
+                },
+            ]
             }
+            
           ]
     },
     {
