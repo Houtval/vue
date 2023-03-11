@@ -7,7 +7,7 @@
           :offset="index%3==0 ? 1 : 2"
           style="padding-bottom: 2%;"
         >
-          <el-card :body-style="{ padding: '0px' }" shadow="hover" @click="Detiledmessage(index)">
+          <el-card :body-style="{ padding: '0px' }" shadow="hover" @click="Detiledmessage(index)" style="cursor: pointer;">
             <img
               :src="store.state.allSlide[index]['url']"
               class="image"
@@ -22,19 +22,13 @@
     </template>
     
     <script lang="ts" setup>
-    import { ref } from 'vue'
     import { useRouter } from 'vue-router'
     import store from '../../store/index';
     const router=useRouter()
     const Detiledmessage=(index:number)=>{
-     store.commit('updateIndexSlide',index)
-      router.push({path:'/SildeMessage',});
+     router.push({path:'/AllSildeMessage',query: { id:index }});
     }
     
-    const activeIndex = ref('1')
-    const handleSelect = (key: string, keyPath: string[]) => {
-      console.log(key, keyPath)
-    }
     
     </script>
         
@@ -46,7 +40,8 @@
         min-width: max-content;
     }
     .image{
-        width: 100%;
+      width: 100%;
+      height: 200px;
     }
     .scrollbar-flex-content{
         width: 100vh;

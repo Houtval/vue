@@ -39,22 +39,28 @@
         <el-col>
 
             <el-dialog v-model="dialogEditVisible" title="修改" style="min-width:80%">
-                <el-upload ref="uploadRefEdit" class="upload-demo" drag multiple :auto-upload="false"
-                    :on-exceed="handleExceedEdit" :limit="1"
-                    action="https://run.mocky.io/v3/9d059bf9-4660-45f2-925d-ce80ad6c4d15">
+
+                <el-upload class="upload-demo" drag multiple ref="Upload" :limit="1" :on-exceed="HandleExceed"
+                    :http-request="file">
                     <el-icon class="el-icon--upload"><upload-filled /></el-icon>
                     <div class="el-upload__text">
-                        拖动文件到这里 或 <em>点击上传</em>
+                        拖动文件到这或者 <em>点击上传</em>
                     </div>
                     <template #tip>
                         <div class="el-upload__tip">
-                            jpg/png 文件且小于 500kb
+                            jpg/png 文件小于500kb
                         </div>
                     </template>
                 </el-upload>
-                <el-button class="ml-3" type="success" @click="submitUploadEdit">
-                    上传到服务器
-                </el-button>
+                <template #footer>
+                    <span class="dialog-footer">
+                        <el-button type="danger" @click="closeUpdateImage()">取消</el-button>
+                        <el-button type="primary" @click="updateImage()">
+                            修改
+                        </el-button>
+                    </span>
+                </template>
+
             </el-dialog>
         </el-col>
     </el-row>
@@ -80,22 +86,26 @@
         <el-col>
             <el-dialog v-model="dialogdAddVisible" title="添加" style="min-width:80%">
 
-                <el-upload ref="uploadRefAdd" class="upload-demo" drag multiple :auto-upload="false"
-                    :on-exceed="handleExceedAdd" :limit="1"
-                    action="https://run.mocky.io/v3/9d059bf9-4660-45f2-925d-ce80ad6c4d15">
+                <el-upload class="upload-demo" drag multiple ref="Upload" :limit="1" :on-exceed="HandleExceed"
+                    :http-request="file">
                     <el-icon class="el-icon--upload"><upload-filled /></el-icon>
                     <div class="el-upload__text">
-                        拖动文件到这里 或 <em>点击上传</em>
+                        拖动文件到这或者 <em>点击上传</em>
                     </div>
                     <template #tip>
                         <div class="el-upload__tip">
-                            jpg/png 文件且小于 500kb
+                            jpg/png 文件小于500kb
                         </div>
                     </template>
                 </el-upload>
-                <el-button class="ml-3" type="success" @click="submitUploadAdd">
-                    上传到服务器
-                </el-button>
+                <template #footer>
+                    <span class="dialog-footer">
+                        <el-button type="danger" @click="closeAddImage()">取消</el-button>
+                        <el-button type="primary" @click="addImage()">
+                            添加
+                        </el-button>
+                    </span>
+                </template>
 
             </el-dialog>
         </el-col>
@@ -124,6 +134,7 @@
 import { genFileId } from 'element-plus'
 import { computed, ref } from 'vue'
 import type { UploadInstance, UploadProps, UploadRawFile } from 'element-plus'
+import { ElMessage } from 'element-plus'
 interface hinge {
     name: string,
 }
@@ -151,27 +162,47 @@ const handleView = (index: number, row: hinge) => {
 }
 
 
+const Upload = ref<UploadInstance>()
 
-const uploadRefEdit = ref<UploadInstance>()
-const handleExceedEdit: UploadProps['onExceed'] = (files) => {
-    uploadRefEdit.value!.clearFiles()
-    const fileEdit = files[0] as UploadRawFile
-    fileEdit.uid = genFileId()
-    uploadRefEdit.value!.handleStart(fileEdit)
-}
-const submitUploadEdit = () => {
-    uploadRefEdit.value!.submit()
+const HandleExceed: UploadProps['onExceed'] = (files) => {
+    Upload.value!.clearFiles()
+    const file = files[0] as UploadRawFile
+    file.uid = genFileId()
+    Upload.value!.handleStart(file)
 }
 
-const uploadRefAdd = ref<UploadInstance>()
-const handleExceedAdd: UploadProps['onExceed'] = (files) => {
-    uploadRefAdd.value!.clearFiles()
-    const fileAdd = files[0] as UploadRawFile
-    fileAdd.uid = genFileId()
-    uploadRefAdd.value!.handleStart(fileAdd)
+let fileimage: any = new FormData()
+
+const file = (param: any) => {
+    fileimage.set('file', param.file)
 }
-const submitUploadAdd = () => {
-    uploadRefAdd.value!.submit()
+
+const showImage = () => {
+    dialogdViewVisible.value = false
+}
+
+
+
+const addImage = () => {
+    Upload.value!.submit()
+    dialogdAddVisible.value = false
+}
+
+const closeAddImage = () => {
+    Upload.value!.clearFiles()
+
+}
+
+const updateImage = () => {
+    dialogEditVisible.value = false;
+}
+
+const closeUpdateImage = () => {
+    dialogEditVisible.value = false;
+}
+
+const deleteImage = () => {
+    dialogdDeleteVisible.value = false;
 }
 
 

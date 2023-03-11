@@ -7,7 +7,7 @@
        :offset="index%3==0 ? 1 : 2"
        style="padding-bottom: 2%;"
      >
-       <el-card :body-style="{ padding: '0px' }" shadow="hover" @click="Detiledmessage(index)">
+       <el-card :body-style="{ padding: '0px' }" shadow="hover" @click="Detiledmessage(index)" style="cursor: pointer;">
          <img
            :src="store.state.allHinge[index]['url']"
            class="image"
@@ -27,8 +27,7 @@
  import store from '../../store/index';
  const router=useRouter()
  const Detiledmessage=(index:number)=>{
-  store.commit('updateIndexHinge',index)
-   router.push({path:'/HingeMessage',});
+   router.push({path:'/AllHingeMessage',query: { id:index }});
  }
  
  const activeIndex = ref('1')
@@ -47,6 +46,7 @@
  }
  .image{
      width: 100%;
+     height: 200px;
  }
  .scrollbar-flex-content{
      width: 100vh;

@@ -1,14 +1,12 @@
 <template>
-<div style="color:black">
-    首页
-</div>
+    <div style="color:black">
+
+    </div>
 </template>
       
 <script lang="ts" setup>
-      
+
 </script>
       
       
-<style scoped>
-      
-</style>
+<style scoped></style>

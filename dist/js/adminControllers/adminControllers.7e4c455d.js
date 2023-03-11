@@ -1,1 +1,0 @@
-import{A as a}from"../../assets/index-2dfc9422.js";async function s(s,r){return await a({url:"/AdminController/login",method:"post",params:{id:s,password:r}}).then((a=>a))}async function r(s,r){return await a({url:"/AdminController/updatePassword",method:"post",params:{id:s,password:r}}).then((a=>a))}export{s as a,r as b};
