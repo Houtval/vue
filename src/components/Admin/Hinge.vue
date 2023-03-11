@@ -630,7 +630,7 @@ const showImage = () => {
 const addImage = () => {
     Upload.value!.submit()
     apiHinge.apiAddImage(fileimage, selecturl.value).then((res) => {
-        if (res.data.code == "20000") {
+        if (res.data == true) {
             ElMessage({
                 message: '上传成功!',
                 type: 'success',
@@ -638,7 +638,7 @@ const addImage = () => {
         }
         else {
             ElMessage({
-                message: res.data.message,
+                message: "上传失败",
                 type: 'error',
             })
         }

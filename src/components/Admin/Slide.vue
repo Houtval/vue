@@ -599,7 +599,7 @@ const updateImage=()=>{
 const addImage=()=>{
     Upload.value!.submit()
     apiSlide.apiAddImage(fileimage,selecturl.value).then((res)=>{
-        if(res.data.code=="20000")
+        if(res.data==true)
         {
             ElMessage({
             message: '上传成功!',
@@ -608,7 +608,7 @@ const addImage=()=>{
         }
         else{
             ElMessage({
-            message: res.data.message,
+            message: "上传失败",
             type: 'error',
             })
         }
