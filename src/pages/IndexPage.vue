@@ -2,16 +2,16 @@
   <el-scrollbar>
     <headermessage></headermessage>
     <el-row style="background-color: rgb(235,235,235);">
-      <el-col :span="24">s
+      <el-col :span="24">
         <el-carousel indicator-position="outside">
-          <el-carousel-item v-for="item in 4" :key="item">
-            <img src="" class="image" />
+          <el-carousel-item v-for="item in store.state.allCarousel1.length" :key="item">
+            <img :src="store.state.allCarousel1[item]" class="image" />
           </el-carousel-item>
         </el-carousel>
 
         <el-carousel :interval="4000" type="card">
-          <el-carousel-item v-for="item in 6" :key="item">
-            <img src="" class="image" />
+          <el-carousel-item v-for="item in store.state.allCarousel2.length" :key="item">
+            <img :src="store.state.allCarousel2[item]" class="image" />
           </el-carousel-item>
         </el-carousel>
       </el-col>
@@ -54,13 +54,14 @@ import footermessage from '../components/FooterMessage.vue';
 import { useRouter } from 'vue-router'
 import { onMounted } from 'vue'
 import store from '../store/index';
-import { ElLoading } from 'element-plus'
 const router = useRouter()
 
 
 store.dispatch('allSlide')
 store.dispatch('allHinge')
 store.dispatch('allMenu')
+store.dispatch('allCarousel1')
+store.dispatch('allCarousel2')
 
 
 onMounted(() => {

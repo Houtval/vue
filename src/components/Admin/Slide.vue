@@ -34,7 +34,7 @@
         <el-table-column label="厚度" prop="size" />
         <el-table-column label="规格" prop="specifications" />
         <el-table-column label="Url" prop="url" />
-        <el-table-column fixed="right" width="510">
+        <el-table-column fixed="right" width="412">
             <template #header>
                 <span style="text-align: center;">
                     操作
@@ -45,8 +45,7 @@
                 <el-button size="default" type="danger" @click="handleDelete(scope.$index, scope.row)">删除信息</el-button>
                 <el-button size="default" type="danger" @click="handleEdit(scope.$index, scope.row)">修改信息</el-button>
                 <el-button size="default"  @click="handleImageAdd(scope.$index, scope.row)">上传图片</el-button>
-                <el-button size="default"  @click="handleImageEdit(scope.$index, scope.row)">修改图片</el-button>
-                <el-button size="default"  @click="handleImageDel(scope.$index, scope.row)">删除图片</el-button>
+                <el-button size="default"  @click="handleImageView(scope.$index, scope.row)">查看图片</el-button>
             </template>
         </el-table-column>
     </el-table>
@@ -206,37 +205,22 @@
         </el-col>
     </el-row>
   
-    <el-row>
-        <el-col>
-            <el-dialog v-model="dialogImageEditVisible" title="修改图片" width="50%">
-            
-                <template #footer>
-                    <span class="dialog-footer">
-                        <el-button @click="dialogImageEditVisible = false">取消</el-button>
-                        <el-button type="primary" @click="updateImage()">
-                            确定
-                        </el-button>
-                    </span>
-                </template>
-            </el-dialog>
-        </el-col>
-    </el-row>
   
     <el-row>
         <el-col>
-            <el-dialog v-model="dialogdImageDeleteVisible" title="删除图片" width="50%">
-                <span>确定删除吗？</span>
+
+            <el-dialog v-model="dialogdViewVisible" title="查看图片" style="min-width:80%">
+                <el-image style="width: 700px; height: 400px"
+                    :src="selecturl" />
+
+
                 <template #footer>
-                    <span class="dialog-footer">
-                        <el-button @click="dialogdDeleteVisible = false">取消</el-button>
-                        <el-button type="primary" @click="deleteImage()">
-                            确定
-                        </el-button>
-                    </span>
+
                 </template>
             </el-dialog>
         </el-col>
     </el-row>
+
   
   </template>
               
@@ -270,8 +254,7 @@
   const dialogEditVisible = ref(false)
   const dialogdDeleteVisible = ref(false)
   const dialogdAddVisible = ref(false)
-  const dialogImageEditVisible = ref(false)
-  const dialogdImageDeleteVisible = ref(false)
+  const dialogdViewVisible=ref(false)
   const dialogdImageAddVisible = ref(false)
   const search = ref('')
   const filterTableData = computed(() =>
@@ -284,7 +267,6 @@
 
 
 
-    store.dispatch('allSlide')      
 
 
 let tableData: hinge[] = []
@@ -336,21 +318,21 @@ tableData=store.state.allSlide
     selectId.value=list['id']
     dialogdDeleteVisible.value=true;
   }
-  
-  const handleImageEdit = (index: number, row: hinge) => {
+
+
+  const handleImageView = (index: number, row: hinge) => {
     const list = toRaw(row)
     selecturl.value=list['url']
-    dialogImageEditVisible.value = true;
+    
+    dialogdViewVisible.value=true;
   }
+  
+
+  
   const handleImageAdd = (index: number, row: hinge) => {
     const list = toRaw(row)
     selecturl.value=list['url']
     dialogdImageAddVisible.value = true;
-  }
-  const handleImageDel = (index: number, row: hinge) => {
-    const list = toRaw(row)
-    selecturl.value=list['url']
-    dialogdImageDeleteVisible.value = true;
   }
   
   
@@ -590,9 +572,6 @@ const file=(param:any)=>{
     fileimage.set('file',param.file)
 }
 
-const updateImage=()=>{
-    dialogImageEditVisible.value=false;
-}
 
 
 
@@ -624,9 +603,7 @@ const closeAddImage=()=>{
     dialogdImageAddVisible.value=false;
 }
 
-const deleteImage=()=>{
-    dialogdImageDeleteVisible.value=false;
-}
+
 
   
 

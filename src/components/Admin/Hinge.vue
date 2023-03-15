@@ -47,7 +47,7 @@
                 <el-button size="default" type="danger" @click="handleDelete(scope.$index, scope.row)">删除信息</el-button>
                 <el-button size="default" type="danger" @click="handleEdit(scope.$index, scope.row)">修改信息</el-button>
                 <el-button size="default" @click="handleImageAdd(scope.$index, scope.row)">上传图片</el-button>
-                <el-button size="default" @click="handleImageShow(scope.$index, scope.row)">查看图片</el-button>
+                <el-button size="default" @click="handleImageView(scope.$index, scope.row)">查看图片</el-button>
             </template>
         </el-table-column>
     </el-table>
@@ -211,48 +211,24 @@
         </el-col>
     </el-row>
 
+
+
+
     <el-row>
         <el-col>
-            <el-dialog v-model="dialogImageShowVisible" title="查看图片" width="50%">
-                <el-upload class="upload-demo" drag multiple ref="Upload" :limit="1" :on-exceed="HandleExceed"
-                    :http-request="file">
-                    <el-icon class="el-icon--upload"><upload-filled /></el-icon>
-                    <div class="el-upload__text">
-                        拖动文件到这或者 <em>点击上传</em>
-                    </div>
-                    <template #tip>
-                        <div class="el-upload__tip">
-                            jpg/png 文件小于500kb
-                        </div>
-                    </template>
-                </el-upload>
+
+            <el-dialog v-model="dialogImageViewVisible" title="查看图片" style="min-width:80%">
+                <el-image style="width: 700px; height: 400px"
+                    :src="selecturl" />
+
+
                 <template #footer>
-                    <span class="dialog-footer">
-                        <el-button @click="dialogImageShowVisible = false">取消</el-button>
-                        <el-button type="primary" @click="showImage()">
-                            确定
-                        </el-button>
-                    </span>
+
                 </template>
             </el-dialog>
         </el-col>
     </el-row>
 
-    <el-row>
-        <el-col>
-            <el-dialog v-model="dialogdImageDeleteVisible" title="删除图片" width="50%">
-                <span>确定删除吗？</span>
-                <template #footer>
-                    <span class="dialog-footer">
-                        <el-button @click="dialogdImageDeleteVisible = false">取消</el-button>
-                        <el-button type="primary" @click="deleteImage()">
-                            确定
-                        </el-button>
-                    </span>
-                </template>
-            </el-dialog>
-        </el-col>
-    </el-row>
 </template>
             
 <script lang="ts" setup>
@@ -292,9 +268,8 @@ const selectId = ref("")
 const dialogEditVisible = ref(false)
 const dialogdDeleteVisible = ref(false)
 const dialogdAddVisible = ref(false)
-const dialogImageShowVisible = ref(false)
-const dialogdImageDeleteVisible = ref(false)
-const dialogdImageAddVisible = ref(false)
+const dialogdImageAddVisible=ref(false)
+const dialogImageViewVisible = ref(false)
 const search = ref('')
 const filterTableData = computed(() =>
     tableData.filter(
@@ -305,12 +280,18 @@ const filterTableData = computed(() =>
 )
 
 
-store.dispatch('allHinge')
+
+
+
+
+
+
 
 
 
 let tableData: hinge[] = []
 tableData = store.state.allHinge
+
 
 
 
@@ -349,21 +330,18 @@ const handleDelete = (index: number, row: hinge) => {
     dialogdDeleteVisible.value = true;
 }
 
-const handleImageShow = (index: number, row: hinge) => {
-    const list = toRaw(row)
-    selecturl.value = list['url']
-    dialogImageShowVisible.value = true;
-}
 const handleImageAdd = (index: number, row: hinge) => {
     const list = toRaw(row)
     selecturl.value = list['url']
     dialogdImageAddVisible.value = true;
 }
-const handleImageDel = (index: number, row: hinge) => {
+
+const handleImageView = (index: number, row: hinge) => {
     const list = toRaw(row)
     selecturl.value = list['url']
-    dialogdImageDeleteVisible.value = true;
+    dialogImageViewVisible.value = true;
 }
+
 
 
 
@@ -622,7 +600,7 @@ const file = (param: any) => {
 }
 
 const showImage = () => {
-    dialogImageShowVisible.value = false;
+    dialogImageViewVisible.value = false;
 }
 
 
@@ -656,9 +634,7 @@ const closeAddImage = () => {
 
 
 
-const deleteImage = () => {
-    dialogdImageDeleteVisible.value = false;
-}
+
 
 </script>
             

@@ -20,6 +20,8 @@ if (localStorage.getItem("id")?.toString() == null) {
 onMounted(() => {
   store.dispatch('allSlide')
   store.dispatch('allHinge')
+  store.dispatch('allCarousel1')
+  store.dispatch('allCarousel2')
   router.push({ path: '/AdminIndex/MainIndex' })
 })
 </script>

@@ -20,7 +20,7 @@
 
     </el-card>
     <el-table :data="filterTableData" style="width: 100%">
-        <el-table-column label="Id" prop="id" />
+        <el-table-column label="url" prop="url" />
         <el-table-column fixed="right" width="230">
             <template #header>
                 <span style="text-align: center;">
@@ -70,8 +70,8 @@
         <el-col>
 
             <el-dialog v-model="dialogdViewVisible" title="查看" style="min-width:80%">
-                <el-image style="width: 100px; height: 100px"
-                    :src="'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg'" />
+                <el-image style="width: 700px; height: 400px"
+                    :src="selecturl" />
 
 
                 <template #footer>
@@ -120,7 +120,7 @@
                 <template #footer>
                     <span class="dialog-footer">
                         <el-button @click="dialogdDeleteVisible = false">取消</el-button>
-                        <el-button type="primary" @click="dialogdDeleteVisible = false">
+                        <el-button type="primary" @click="deleteImage()">
                             确定
                         </el-button>
                     </span>
@@ -135,10 +135,15 @@ import { genFileId } from 'element-plus'
 import { computed, ref } from 'vue'
 import type { UploadInstance, UploadProps, UploadRawFile } from 'element-plus'
 import { ElMessage } from 'element-plus'
+import * as apiCorporation from '../../api/corporationControllers'
+import store from '../../store/index'
+import { toRaw } from '@vue/reactivity'
 interface hinge {
-    name: string,
+    url: string,
 }
 
+const url=ref('')
+const selecturl=ref('')
 const dialogEditVisible = ref(false)
 const dialogdDeleteVisible = ref(false)
 const dialogdAddVisible = ref(false)
@@ -148,16 +153,22 @@ const filterTableData = computed(() =>
     tableData.filter(
         (data) =>
             !search.value ||
-            data.name.toLowerCase().includes(search.value.toLowerCase())
+            data.url.toLowerCase().includes(search.value.toLowerCase())
     )
 )
 const handleEdit = (index: number, row: hinge) => {
+    const list = toRaw(row)
+    selecturl.value = list['url']
     dialogEditVisible.value = true;
 }
 const handleDelete = (index: number, row: hinge) => {
+    const list = toRaw(row)
+    selecturl.value = list['url']
     dialogdDeleteVisible.value = true;
 }
 const handleView = (index: number, row: hinge) => {
+    const list = toRaw(row)
+    selecturl.value = list['url']
     dialogdViewVisible.value = true;
 }
 
@@ -174,7 +185,7 @@ const HandleExceed: UploadProps['onExceed'] = (files) => {
 let fileimage: any = new FormData()
 
 const file = (param: any) => {
-    fileimage.set('file', param.file)
+    fileimage.set('img', param.file)
 }
 
 const showImage = () => {
@@ -185,6 +196,21 @@ const showImage = () => {
 
 const addImage = () => {
     Upload.value!.submit()
+    apiCorporation.apiPutImg2(fileimage).then((res)=>{
+        if(res.data.code=='20000')
+        {
+            ElMessage({
+            message: '上传成功!',
+            type: 'success',
+            })
+        }
+        else{
+            ElMessage({
+            message: '上传失败!',
+            type: 'error',
+            })
+        }
+    })
     dialogdAddVisible.value = false
 }
 
@@ -194,25 +220,65 @@ const closeAddImage = () => {
 }
 
 const updateImage = () => {
+    Upload.value!.submit()
+    apiCorporation.apiUpdateImg1(fileimage,selecturl.value).then((res)=>{
+        if(res.data.code=='20000')
+        {
+            ElMessage({
+            message: '修改成功!',
+            type: 'success',
+            })
+        }
+        else{
+            ElMessage({
+            message: '修改失败!',
+            type: 'error',
+            })
+        }
+    })
     dialogEditVisible.value = false;
 }
 
 const closeUpdateImage = () => {
+    Upload.value!.clearFiles()
     dialogEditVisible.value = false;
 }
 
 const deleteImage = () => {
+    apiCorporation.apiDelImg2(selecturl.value).then((res)=>{
+        if(res.data.code=='20000')
+        {
+            ElMessage({
+            message: '删除成功!',
+            type: 'success',
+            })
+            for(let i=0;i<tableData.length;i++)
+            {
+                const list = toRaw(tableData[i])
+                if (list['url'] == selecturl.value) {
+                    tableData.splice(i, 1);
+                }
+            }
+        }
+        else{
+            ElMessage({
+            message: '删除失败!',
+            type: 'error',
+            })
+        }
+    })
     dialogdDeleteVisible.value = false;
 }
 
 
 
 
-const tableData: hinge[] = [
-    {
-        name: "string",
-    },
-]
+let tableData: hinge[] = []
+
+
+store.state.allCarousel2.forEach(element => {
+    tableData.push({url:element})
+});
 </script>
               
               

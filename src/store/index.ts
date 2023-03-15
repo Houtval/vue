@@ -2,6 +2,7 @@ import Vuex from 'vuex'
 import { apiSelectAll, apiSelectByAll } from '../api/sildeControllers'
 import { apiHingeByAll, apiHingeFindHinge } from '../api/hingeControllers'
 import { apiGetAllMenu } from '../api/menuControllers'
+import {apiGetImg1,apiGetImg2} from '../api/corporationControllers'
 
 
 export default new Vuex.Store({
@@ -14,14 +15,23 @@ export default new Vuex.Store({
     allSlide: [],
     allHinge: [],
     allMenu: [],
+    allCarousel1:[],
+    allCarousel2:[],
     searchSlide: [],
     searchHinge: []
+
   },
   getters: {
   },
   mutations: {
     updateSearch(state, search) {
       state.search = search
+    },
+    ALLCAROUSEL1(state,allCarousel1){
+      state.allCarousel1=allCarousel1
+    },
+    ALLCAROUSEL2(state,allCarousel2){
+      state.allCarousel2=allCarousel2
     },
     ALLMENU(state, allMenu) {
       state.allMenu = allMenu
@@ -90,6 +100,21 @@ export default new Vuex.Store({
       let result = await apiHingeFindHinge(this.state.search)
       if (result.data.code == "20000") {
         commit('SEARCHHINGE', result.data.data)// 提交result并把返回结果赋值给USERLIST，最后再在mutats里面定义USERLIST
+      }
+    },
+
+
+    async allCarousel1({ commit }) { // userList是在mounted定义的
+      let result = await apiGetImg1()
+      if (result.data.code == "20000") {
+        commit('ALLCAROUSEL1', result.data.data)// 提交result并把返回结果赋值给USERLIST，最后再在mutats里面定义USERLIST
+      }
+    },
+
+    async allCarousel2({ commit }) { // userList是在mounted定义的
+      let result = await apiGetImg2()
+      if (result.data.code == "20000") {
+        commit('ALLCAROUSEL2', result.data.data)// 提交result并把返回结果赋值给USERLIST，最后再在mutats里面定义USERLIST
       }
     },
 

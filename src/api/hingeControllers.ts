@@ -1,6 +1,5 @@
 import { remove } from '@vue/shared';
 import Api from '../utils/request'
-import qs from 'qs'
 
 async function apiAddHinge(
   dampingSystem: string,

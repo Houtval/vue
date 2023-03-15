@@ -1,5 +1,26 @@
 import Api from '../utils/request'
 
+
+async function apiGetImg1() {
+    let api = await Api({
+        url: "/HomeController/getImg1",
+        method: 'post',
+    }).then((res) => {
+        return res;
+    });
+    return api;
+}
+
+async function apiGetImg2() {
+    let api = await Api({
+        url: "/HomeController/getImg2",
+        method: 'post',
+    }).then((res) => {
+        return res;
+    });
+    return api;
+}
+
 async function apiDelImg1(Img: string) {
     let a = File
     let api = await Api({
@@ -129,4 +150,4 @@ async function apiUpdateImg2(File: FormData, Url: string) {
 
 
 
-export { apiDelImg1, apiDelImg2, apiPutImg1, apiPutImg2, apiUpdateImg1, apiUpdateImg2 }
+export { apiDelImg1, apiDelImg2, apiPutImg1, apiPutImg2, apiUpdateImg1, apiUpdateImg2,apiGetImg1,apiGetImg2 }
